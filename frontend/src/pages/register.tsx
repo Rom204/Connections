@@ -9,7 +9,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const authService = new AuthServices();
-const Register = (): JSX.Element => {
+const Register = () => {
 	const navigation = useNavigate();
 	const { register, handleSubmit, watch } = useForm<any>({
 		defaultValues: {},

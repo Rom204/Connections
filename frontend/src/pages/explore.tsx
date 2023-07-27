@@ -5,7 +5,7 @@ import { useAppSelector } from "../redux/hooks";
 import UserModel from "../models/user_model";
 import User_interaction from "../components/common/user_Interaction/user_interaction";
 
-const Explore = (): JSX.Element => {
+const Explore = () => {
 	const user_state = useAppSelector((state) => state.user);
 	const [allUsers, setAllUsers] = useState<UserModel[]>([]);
 	console.log("this is the Explore component");

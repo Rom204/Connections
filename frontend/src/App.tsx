@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { login } from "./redux/features/user/userSlice";
 import { useEffect } from "react";
 
-const App = (): JSX.Element => {
+const App = () => {
 	console.log("app level 2");
 
 	const dispatch = useAppDispatch();

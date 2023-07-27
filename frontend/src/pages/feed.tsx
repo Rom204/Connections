@@ -5,7 +5,7 @@ import { useAppSelector } from "../redux/hooks";
 import Post from "../components/common/post/post";
 import PostModel from "../models/post_model";
 
-const Feed = (): JSX.Element => {
+const Feed = () => {
 	const user_state = useAppSelector((state) => state.user);
 	const [followedUsersPosts, setFollowedUsersPosts] = useState<PostModel[]>([]);
 	console.log("this is the feed component");

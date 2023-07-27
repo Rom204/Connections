@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAppDispatch } from "../redux/hooks";
 import { login } from "../redux/features/user/userSlice";
 
-const Login = (): JSX.Element => {
+const Login = () => {
 	const dispatch = useAppDispatch();
 	const { register, handleSubmit, watch } = useForm({});
 	const navigation = useNavigate();

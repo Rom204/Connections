@@ -7,7 +7,7 @@ interface PostProps extends PostModel {
 	loading?: boolean;
 }
 
-const Post = (props: PostProps): JSX.Element => {
+const Post = (props: PostProps) => {
 	const user_state = useAppSelector((state) => state.user);
 
 	const handleLikeAction = async () => {

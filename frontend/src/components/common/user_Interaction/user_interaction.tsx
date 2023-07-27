@@ -9,7 +9,7 @@ interface UserInteractionsProps {
 	followStatus: () => void;
 }
 
-const User_interaction = (props: UserInteractionsProps): JSX.Element => {
+const User_interaction = (props: UserInteractionsProps) => {
 	const [isFollowed, setIsFollowed] = useState(false);
 	const [isMyProfile, setIsMyProfile] = useState(false);
 	const [allFollowers, setAllFollowers] = useState<any>([]);

@@ -7,7 +7,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
 
-const Profile = (): JSX.Element => {
+const Profile = () => {
 	let location = useLocation();
 	console.log(location);
 	console.log("this is the profile component");

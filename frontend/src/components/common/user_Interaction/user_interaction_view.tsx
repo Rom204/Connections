@@ -16,7 +16,7 @@ interface UserInteractionViewProps {
 	showFollowing: () => void;
 }
 
-const User_interaction_view = (props: UserInteractionViewProps): JSX.Element => {
+const User_interaction_view = (props: UserInteractionViewProps) => {
 	const [open, setOpen] = useState(false);
 	const [usersType, setUsersType] = useState("");
 

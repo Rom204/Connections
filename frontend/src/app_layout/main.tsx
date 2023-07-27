@@ -14,7 +14,7 @@ interface MainProps {
 		role: string;
 	};
 }
-const Main = ({ user }: MainProps): JSX.Element => {
+const Main = ({ user }: MainProps) => {
 	console.log(user);
 	console.log("main level 4");
 	return (
@@ -23,7 +23,7 @@ const Main = ({ user }: MainProps): JSX.Element => {
 			<Routes>
 				<Route
 					path="/"
-					element={<Private_router/>}>
+					element={<Private_router />}>
 					<Route
 						path="feed"
 						element={<Feed />}

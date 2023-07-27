@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-const Navbar = (): JSX.Element => {
+const Navbar = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector((state) => state.user);

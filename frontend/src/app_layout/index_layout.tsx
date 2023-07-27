@@ -11,7 +11,7 @@ interface LayoutProps {
 	};
 }
 
-const General_Layout = ({ user }: LayoutProps): JSX.Element => {
+const General_Layout = ({ user }: LayoutProps) => {
 	console.log("layout level 3");
 
 	return (

@@ -14,7 +14,7 @@ interface PostViewProps extends PostModel {
 	commentAction: (comment: string) => void;
 }
 
-const PostView = (props: PostViewProps): JSX.Element => {
+const PostView = (props: PostViewProps) => {
 	
 	const { loading = false } = props;
 	const { register, handleSubmit } = useForm({});
