@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { useEffect, useState } from "react";
-import General_Layout from "./app_layout/index_layout";
-import { login, logout } from "./redux/features/user/userSlice";
-import ApiService from "./services/api_service";
 import { Button, Modal, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ApiService } from "./services/api_service";
+import { login, logout } from "./redux/features/user/userSlice";
+import General_Layout from "./app_layout/index_layout";
 
 const App = () => {
 	console.log("render stage: app");
@@ -20,10 +20,11 @@ const App = () => {
 		setModalOpen(false);
 	};
 	useEffect(() => {
-		if (user.id.length > 0) return;
+		if (user.id.length > 0) return; //checking if there is any user state initialized
 
 		const token = localStorage.getItem("JWT");
 		if (token) {
+			// check if the jwt we have in the local storage is valid
 			apiService
 				.isJwtValid()
 				.then((response) => dispatch(login(response.data)))

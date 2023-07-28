@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
-export default class ApiService {
+export class ApiService {
 
     private instance: AxiosInstance;
 
@@ -26,7 +26,7 @@ export default class ApiService {
         }
         try {
             const result = await this.instance.get('auth/check-jwt');
-            console.log(result)            
+            console.log(result)
             return result
         } catch (error: any) {
             this.handleErrors(error)
