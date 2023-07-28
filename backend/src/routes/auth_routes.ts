@@ -5,7 +5,7 @@ import auth_controller from '../controllers/auth_controller';
 
 const router = express.Router();
 
-router.post(AuthURLS.checkJWTApi, async (request: Request, response: Response) => {
+router.get(AuthURLS.checkJWTApi, async (request: Request, response: Response) => {
     try {
         const token = request.headers.authorization;
         console.log(token)
@@ -18,6 +18,8 @@ router.post(AuthURLS.checkJWTApi, async (request: Request, response: Response) =
         
     } catch (error) {
         console.log(error);
+        // throw error
+        response.status(404).json(error)
     }
 })
 

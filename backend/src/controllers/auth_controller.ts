@@ -59,7 +59,7 @@ const checkJWT = (token: string): Promise<any> => {
                 });
 
             } else {
-                throw new Error("fucked up")
+                throw error
             }
         }
     }
