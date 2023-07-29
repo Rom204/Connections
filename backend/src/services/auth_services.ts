@@ -1,13 +1,18 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/user_model';
+import { PrismaClient } from '@prisma/client';
 const dotenv = require('dotenv').config();
 
 
 export default class AuthServices {
     //fields
+    private prisma: PrismaClient;
 
     //constructor
+    constructor(prisma: PrismaClient) {
+        this.prisma = prisma
+    }
 
     //methods
     public async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
@@ -39,11 +44,27 @@ export default class AuthServices {
         return token
     }
 
-    public async verifyJWT(token: string): Promise<object> {
-
-
-        return {}
+    public async createUser(potentialUser: UserModel) {
+        try {
+            const hashedPassword = await this.generateHashedPassword(potentialUser.password)
+            await this.prisma.user.create({
+                data: {
+                    username: potentialUser.username,
+                    password: hashedPassword,
+                    email: potentialUser.email
+                }
+            })
+        } catch (error) {
+            // console.log(error);
+            throw error
+        }
     }
+
+    // public async verifyJWT(token: string): Promise<object> {
+
+
+    //     return {}
+    // }
 }
 
 

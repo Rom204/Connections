@@ -2,22 +2,12 @@ import express, { NextFunction, Request, Response } from 'express';
 import { UserURLS } from '../utils/urls';
 import user_controller from '../controllers/user_controller';
 import AuthServices from '../services/auth_services';
+import { PrismaClient } from '@prisma/client';
 
-// import additional controller , middleware.
+const prisma = new PrismaClient();
 
 const router = express.Router();
-const authService = new AuthServices()
-
-
-router.post(UserURLS.createUserApi, async (request: Request, response: Response) => {
-    try {
-        const user_data = request.body
-        response.status(204).json(await user_controller.createUser(user_data))
-    } catch (error) {
-        console.log("ROUTER NET", error)
-        response.status(409).json(error)
-    }
-})
+const authService = new AuthServices(prisma)
 
 router.get("/", async (request: Request, response: Response) => {
     response.status(200).json("user controller is working properly")

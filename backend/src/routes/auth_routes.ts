@@ -3,10 +3,30 @@ import { AuthURLS } from "../utils/urls";
 import auth_controller from '../controllers/auth_controller';
 import { jwtMiddleware } from '../middlewares/authentication';
 
-
+// Authentication related router
 const router = express.Router();
 
-router.get(AuthURLS.checkJWTApi, jwtMiddleware, async (request: Request, response: Response) => {
+// Attempt to create a new user 
+router.post(AuthURLS.registerApi, async (request: Request, response: Response) => {
+    try {
+        const potentialUserData = request.body;
+        response.status(201).json(await auth_controller.register(potentialUserData))
+    } catch (error) {
+        console.log(error);
+        response.status(409).json(error);
+    }
+});
+
+router.post(AuthURLS.loginApi, async (request: Request, response: Response) => {
+    try {
+        const data = request.body;
+        response.status(202).json(await auth_controller.checkLogin(data))
+    } catch (error) {
+        console.log(error);
+    }
+});
+// will check the validation of the token from the client
+router.get(AuthURLS.checkJwtApi, jwtMiddleware, async (request: Request, response: Response) => {
     console.log("THIS FUNCTION FINALLY RAN AFTER MIDDLEWARE")
 
     const validToken = request.headers.authorization;
@@ -14,24 +34,6 @@ router.get(AuthURLS.checkJWTApi, jwtMiddleware, async (request: Request, respons
     console.log(verifiedUser);
     response.set("authorization", `${validToken}`);
     response.status(200).json(verifiedUser);
-})
-
-router.post(AuthURLS.checkRegistration, async (request: Request, response: Response) => {
-    try {
-        const data = request.body;
-        response.status(202).json(await auth_controller.checkRegistration(data))
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-router.post(AuthURLS.checkLoginApi, async (request: Request, response: Response) => {
-    try {
-        const data = request.body;
-        response.status(202).json(await auth_controller.checkLogin(data))
-    } catch (error) {
-        console.log(error);
-    }
-})
+});
 
 export default router;

@@ -1,84 +1,35 @@
+import { PrismaClient } from "@prisma/client";
 import UserModel from "../models/user_model";
 import AuthServices from "../services/auth_services"
 import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
+import PrismaUserServices from "../services/user_services";
 const dotenv = require("dotenv").config();
 
-const authService = new AuthServices();
+const prisma = new PrismaClient();
+const user_service = new PrismaUserServices(prisma);
+const authService = new AuthServices(prisma);
 
-interface UserDataProps {
-    id: string;
-    username: string;
-    role: string;
-}
 
-// TODO change any type ->
-const checkJWT = (token: string): Promise<any> => {
-    // retrieve token after removing Bearer
+const register = async (potentialUserData: UserModel) => {
+    const { username, password, email } = potentialUserData;
 
-    const data = token?.split(" ")[1];
-    // console.log("data from token here",data)
-    const secret_key = process.env.SECRET_ACCESS_TOKEN;
-    let verifiedToken = token;
-    
-    if (!data) {
-        throw Error('No Token Found');
+    if(!username || !password || !email) {
+        throw new Error("username, password or email are missing")
     }
-    if (!secret_key) {
-        throw Error('Secret Key not set in environment variable.')
-    } else {
-        try {
-            let userData = {
-                id: "",
-                username: "",
-                role: ""
-            }
-            // checking if jwt is valid, return encrypted user data if valid
-            userData = jwt.verify(data, secret_key) as UserDataProps;
-            // console.log("data for userData here:", userData)
-            return Promise.resolve({
-                token: verifiedToken,
-                user: userData,
-            })
-
-        } catch (error) {
-            // If the jwt is'nt valid because of date expiration then will create new one
-            if (error instanceof TokenExpiredError) {
-                // let userData = {
-                //     id: "hey",
-                //     username: "",
-                //     role: ""
-                // }
-                const userData = jwt.decode(data) as UserDataProps;
-                const refreshedToken = jwt.sign({ userData }, secret_key, {
-                    expiresIn: "1h",
-                });
-
-                return Promise.resolve({
-                    token: refreshedToken,
-                    user: userData,
-                });
-
-            } else {
-                throw error
-            }
+    try {
+        const isUserExists = await user_service.getUserByUsername(username);
+        if (isUserExists) {
+            throw new Error("this username is already taken")
         }
+        const isEmailExists = await user_service.getUserByEmail(email);
+        if (isEmailExists) {
+            throw new Error("this email already exists")
+        } else {
+            await authService.createUser(potentialUserData)
+        }
+    } catch (error) {
+        throw error
     }
-}
-
-
-const checkJWT2 = async (token: string | undefined) => {
-    const data = token?.split(" ")[1];
-    if (!data) {
-        console.log('no JWT found')
-    } else {
-        const verified = jwt.verify(data, "rom");
-        return verified
-    }
-}
-
-const checkRegistration = (data: object) => {
-    // TODO implement registration validation logic here.
-    // authService.
 }
 
 const checkLogin = (data: object) => {
@@ -88,7 +39,6 @@ const checkLogin = (data: object) => {
 
 
 export default {
-    checkJWT,
-    checkRegistration,
+    register,
     checkLogin
 }

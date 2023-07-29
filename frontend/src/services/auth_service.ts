@@ -5,11 +5,11 @@ export default class AuthServices {
 
     // methods
 
-    public async checkRegistration(data: any): Promise<object> {
+    public async register(data: any): Promise<object> {
         const result = await axios.create({
-            baseURL: "http://localhost:3001/user"
+            baseURL: "http://localhost:3001/auth"
         })
-            .post("/create-user", {
+            .post("/api/register", {
                 username: data.username,
                 password: data.password,
                 email: data.email

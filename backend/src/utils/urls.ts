@@ -1,12 +1,12 @@
 // urls for the api end points
 
 class AuthURLS {
-    public static checkLoginApi = "/check-login";
-    public static checkJWTApi = "/check-jwt";
-    public static checkRegistration = "/check-registration";
+    public static registerApi = "/api/register";
+    public static loginApi = "/api/login";
+    public static checkJwtApi = "/api/check-jwt";
 }
+
 class UserURLS {
-    public static createUserApi = "/create-user";
     public static userLoginApi = "/user-login";
     public static getAllUsersApi = "/all-users";
     public static getSingleUserApi = "/:id";

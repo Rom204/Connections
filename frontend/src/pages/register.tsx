@@ -53,7 +53,7 @@ const Register = () => {
 	const registerValidation = async (data: any) => {
 		if (validEmail && validUsername && validPassword && validMatchingPassword) {
 			try {
-				const registration = await authService.checkRegistration(data);
+				const registration = await authService.register(data);
 				console.log(registration);
 				if (registration) {
 					setSuccess(true);

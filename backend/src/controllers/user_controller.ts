@@ -4,34 +4,10 @@ import UserModel from '../models/user_model';
 import AuthServices from '../services/auth_services';
 import jwt from 'jsonwebtoken';
 
-
 const prisma = new PrismaClient();
 const user_service = new PrismaUserServices(prisma);
-const service = new AuthServices()
+const service = new AuthServices(prisma)
 
-const createUser = async (user: UserModel) => {
-
-    const { username, password, email } = user;
-
-    if(!username || !password || !email) {
-        throw new Error("username, password or email are missing")
-    }
-    try {
-        const isUserExists = await user_service.getUserByUsername(username);
-        if (isUserExists) {
-            throw new Error("this username is already taken")
-        }
-        const isEmailExists = await user_service.getUserByEmail(email);
-        if (isEmailExists) {
-            throw new Error("this email already exists")
-        } else {
-            await user_service.createUser(user)
-        }
-
-    } catch (error) {
-        throw error
-    }
-}
 // TODO: change any type 
 const followUser = async (followedID: string, followingID: string) => {
     if(!followedID || !followingID) {
@@ -124,7 +100,6 @@ const unFollowUser = async (followedID: string, followingID: string) => {
 }
 
 export default {
-    createUser,
     followUser,
     getAllUsers,
     getAllFollowedUsers,

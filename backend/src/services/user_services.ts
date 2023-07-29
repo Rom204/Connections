@@ -2,7 +2,9 @@ import { PrismaClient, User } from "@prisma/client";
 import UserModel from "../models/user_model";
 import AuthServices from "./auth_services";
 
-const authService = new AuthServices()
+const prisma = new PrismaClient();
+
+const authService = new AuthServices(prisma)
 
 export default class PrismaUserServices {
     // some fields and methods related to user here
@@ -18,21 +20,6 @@ export default class PrismaUserServices {
 
     //CRUD methods
     //create
-    public async createUser(user: UserModel) {
-        try {
-            const hashedPassword = await authService.generateHashedPassword(user.password)
-            await this.prisma.user.create({
-                data: {
-                    username: user.username,
-                    password: hashedPassword,
-                    email: user.email
-                }
-            })
-        } catch (error) {
-            // console.log(error);
-            throw error
-        }
-    }
 
     public async followUser(followedID: string, followingID: string) {
         try {
