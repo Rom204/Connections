@@ -20,7 +20,7 @@ const Login = () => {
 		if (username && password) {
 			try {
 				await axios
-					.post("http://localhost:3001/user/user-login", {
+					.post("http://localhost:3001/auth/api/login", {
 						username: data.username,
 						password: data.password,
 					})

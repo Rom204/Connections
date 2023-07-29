@@ -32,6 +32,29 @@ const register = async (potentialUserData: UserModel) => {
     }
 }
 
+const verifyingUser = async (potentialUser: UserModel) => {
+    console.log(potentialUser)
+    const { username, password } = potentialUser;
+
+    if(!username || !password) {
+        throw new Error("username or password are missing")
+    }
+
+    const verifiedUser = await user_service.getUserByUsername(potentialUser.username);
+    if (!verifiedUser) {
+        throw new Error(`No such account with the given credentials`)
+    }
+
+    const expectedPassword = await authService.comparePassword(potentialUser.password, verifiedUser.password)
+    if (!expectedPassword) {
+        throw new Error("invalid password")
+    }
+
+    if (expectedPassword) {
+        return verifiedUser
+    }
+}
+
 const checkLogin = (data: object) => {
     // TODO implement login validation logic here.
     // authService.
@@ -40,5 +63,6 @@ const checkLogin = (data: object) => {
 
 export default {
     register,
+    verifyingUser,
     checkLogin
 }

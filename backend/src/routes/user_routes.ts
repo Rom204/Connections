@@ -1,13 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { UserURLS } from '../utils/urls';
 import user_controller from '../controllers/user_controller';
-import AuthServices from '../services/auth_services';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
 
 const router = express.Router();
-const authService = new AuthServices(prisma)
 
 router.get("/", async (request: Request, response: Response) => {
     response.status(200).json("user controller is working properly")
@@ -52,25 +48,8 @@ router.get(UserURLS.getUserByUsernameApi, async (request: Request, response: Res
     response.status(202).json(await user_controller.getUserByUsername(username))
 })
 
-router.post(UserURLS.userLoginApi, async (request: Request, response: Response) => {
-    try {
-        const user_data = request.body;
-        const verifiedUser = await user_controller.verifyingUser(user_data);
-        if (!verifiedUser) {
-            throw new Error("user not verified")
-        }
-        if (verifiedUser) {
-            const token = await authService.createJWT(verifiedUser);
-            response.set("authorization", `Bearer ${token}`)
-            response.status(200).json(verifiedUser)
-        }
-    } catch (error) {
-        console.log("ROUTER NET", error)
-    }
-})
-
 // follow un follow section
-router.put(UserURLS.followUserApi, async(request: Request, response: Response) => {
+router.put(UserURLS.followUserApi, async (request: Request, response: Response) => {
     try {
         const followedUserID = request.body.followedUser
         const followingUserID = request.body.followingUser
@@ -78,14 +57,14 @@ router.put(UserURLS.followUserApi, async(request: Request, response: Response) =
         if (!followedUserID || !followingUserID) {
             throw new Error("did not received params")
         } else {
-            response.status(202).json(await user_controller.followUser(followedUserID,followingUserID))
+            response.status(202).json(await user_controller.followUser(followedUserID, followingUserID))
         }
     } catch (error) {
         console.log("ROUTER NET", error)
     }
 })
 
-router.put(UserURLS.unFollowUserApi, async(request: Request, response: Response) => {
+router.put(UserURLS.unFollowUserApi, async (request: Request, response: Response) => {
     console.log("unfollowing")
     try {
         const followedUserID = request.body.data.followedUser
@@ -95,7 +74,7 @@ router.put(UserURLS.unFollowUserApi, async(request: Request, response: Response)
         if (!followedUserID || !followingUserID) {
             throw new Error("did not received params")
         } else {
-            response.status(202).json(await user_controller.unFollowUser(followedUserID,followingUserID))
+            response.status(202).json(await user_controller.unFollowUser(followedUserID, followingUserID))
         }
     } catch (error) {
         console.log("ROUTER NET", error)

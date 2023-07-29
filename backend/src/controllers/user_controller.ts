@@ -1,12 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 import PrismaUserServices from '../services/user_services';
 import UserModel from '../models/user_model';
-import AuthServices from '../services/auth_services';
-import jwt from 'jsonwebtoken';
+
 
 const prisma = new PrismaClient();
 const user_service = new PrismaUserServices(prisma);
-const service = new AuthServices(prisma)
 
 // TODO: change any type 
 const followUser = async (followedID: string, followingID: string) => {
@@ -57,33 +55,6 @@ const getSingleUserFollowings = async (user_id: string) => {
     return singleUserFollowings
 }
 
-const verifyingUser = async (user: UserModel) => {
-    // TODO implement jwt token authentication here
-    console.log(user)
-    const { username, password } = user;
-
-    if(!username || !password) {
-        throw new Error("username or password are missing")
-    }
-
-    const potentialUser = await user_service.getUserByUsername(user.username);
-    if (!potentialUser) {
-        throw new Error(`No such account with the given credentials`)
-    }
-
-    const expectedPassword = await service.comparePassword(user.password, potentialUser.password)
-    
-    if (!expectedPassword) {
-        throw new Error("invalid username or password")
-    }
-
-    if (expectedPassword) {
-        return potentialUser
-    }
-
-}
-
-
 const deleteUser = async (user_id: string) => {
     // await user_service.deleteUser(user_id);
 }
@@ -108,7 +79,6 @@ export default {
     getSingleUserByID,
     getUserByUsername,
     getSingleUserFollowers,
-    verifyingUser,
     deleteUser,
     unFollowUser
 }

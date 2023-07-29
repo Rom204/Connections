@@ -7,7 +7,6 @@ class AuthURLS {
 }
 
 class UserURLS {
-    public static userLoginApi = "/user-login";
     public static getAllUsersApi = "/all-users";
     public static getSingleUserApi = "/:id";
     public static getSingleUserFollowersApi = "/:id/followers";
