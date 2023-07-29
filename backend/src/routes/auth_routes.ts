@@ -16,13 +16,11 @@ router.post(AuthURLS.registerApi, async (request: Request, response: Response, n
         const potentialUserData = request.body;
         response.status(201).json(await auth_controller.register(potentialUserData))
     } catch (error) {
-        console.log(error);
         next(error);
-        // response.status(409).json(error);
     }
 });
 // Attempt to log in 
-router.post(AuthURLS.loginApi, async (request: Request, response: Response) => {
+router.post(AuthURLS.loginApi, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const userData = request.body;
         const verifiedUser = await auth_controller.verifyingUser(userData);
@@ -35,19 +33,20 @@ router.post(AuthURLS.loginApi, async (request: Request, response: Response) => {
             response.status(200).json(verifiedUser)
         }
     } catch (error) {
-        console.log(error);
-        response.status(404).json(error)
+        next(error)
     }
 });
 // will check the validation of the token from the client
-router.get(AuthURLS.checkJwtApi, jwtMiddleware, async (request: Request, response: Response) => {
-    console.log("THIS FUNCTION FINALLY RAN AFTER MIDDLEWARE")
-
-    const validToken = request.headers.authorization;
-    const verifiedUser = request.body.data;
-    console.log(verifiedUser);
-    response.set("authorization", `${validToken}`);
-    response.status(200).json(verifiedUser);
+router.get(AuthURLS.checkJwtApi, jwtMiddleware, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const validToken = request.headers.authorization;
+        const verifiedUser = request.body.data;
+        console.log(verifiedUser);
+        response.set("authorization", `${validToken}`);
+        response.status(200).json(verifiedUser);
+    } catch (error) {
+        next(error)
+    }
 });
 
 export default router;

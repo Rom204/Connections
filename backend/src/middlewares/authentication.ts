@@ -50,7 +50,8 @@ export const jwtMiddleware = (request: Request, response: Response, next: NextFu
                 } else if (error.name === "JsonWebTokenError") {
                     console.log(error);
                     return response.status(404).json(error);
-                    // next(error);
+                } else {
+                    throw error;
                 }
             }
         }

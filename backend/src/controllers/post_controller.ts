@@ -2,14 +2,17 @@ import { PrismaClient } from "@prisma/client";
 import PrismaPostServices from "../services/post_services";
 import PostModel from "../models/post_model";
 import { v2 as cloudinary } from 'cloudinary';
+const dotenv = require('dotenv').config();
+
+const prisma = new PrismaClient();
+const service = new PrismaPostServices(prisma)
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dutfaxmmi",
-    api_key: process.env.CLOUDINARY_API_KEY || '795623362654516',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "",
+    api_key: process.env.CLOUDINARY_API_KEY || "",
     api_secret: process.env.CLOUDINARY_API_SECRET || "",
     // secure: true //true for https connection and false otherwise (default is true). Set it based
 });
-
 
 const uploadImage = async (image: any) => {
     const uploadedImage = await cloudinary.uploader.upload(image, {
@@ -17,10 +20,6 @@ const uploadImage = async (image: any) => {
     });
     return uploadedImage;
 }
-const prisma = new PrismaClient();
-const service = new PrismaPostServices(prisma)
-
-
 // logic
 
 //create
