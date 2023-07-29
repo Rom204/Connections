@@ -1,26 +1,19 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { AuthURLS } from "../utils/urls";
 import auth_controller from '../controllers/auth_controller';
+import { jwtMiddleware } from '../middlewares/authentication';
 
 
 const router = express.Router();
 
-router.get(AuthURLS.checkJWTApi, async (request: Request, response: Response) => {
-    try {
-        const token = request.headers.authorization;
-        console.log(token)
-        if (token) {
-            const verifiedUser = await auth_controller.checkJWT(token);
-            console.log(verifiedUser.user.data);
-            response.set("authorization", `Bearer ${verifiedUser.token}`)
-            response.status(200).json(verifiedUser.user.data)
-        }
-        
-    } catch (error) {
-        console.log(error);
-        // throw error
-        response.status(404).json(error)
-    }
+router.get(AuthURLS.checkJWTApi, jwtMiddleware, async (request: Request, response: Response) => {
+    console.log("THIS FUNCTION FINALLY RAN AFTER MIDDLEWARE")
+
+    const validToken = request.headers.authorization;
+    const verifiedUser = request.body.data;
+    console.log(verifiedUser);
+    response.set("authorization", `${validToken}`);
+    response.status(200).json(verifiedUser);
 })
 
 router.post(AuthURLS.checkRegistration, async (request: Request, response: Response) => {

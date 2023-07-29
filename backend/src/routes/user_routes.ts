@@ -7,6 +7,8 @@ import AuthServices from '../services/auth_services';
 
 const router = express.Router();
 const authService = new AuthServices()
+
+
 router.post(UserURLS.createUserApi, async (request: Request, response: Response) => {
     try {
         const user_data = request.body

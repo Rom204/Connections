@@ -20,8 +20,9 @@ const App = () => {
 		setModalOpen(false);
 	};
 	useEffect(() => {
-		if (user.id.length > 0) return; //checking if there is any user state initialized
-
+		console.log(user)
+		if (user?.id?.length > 0) return; //checking if there is any user state initialized
+		
 		const token = localStorage.getItem("JWT");
 		if (token) {
 			// check if the jwt we have in the local storage is valid

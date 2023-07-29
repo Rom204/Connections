@@ -11,7 +11,7 @@ const Feed = () => {
 	console.log("this is the feed component");
 	
 	useEffect(() => {
-		if (user_state.id.length > 0) {
+		if (user_state?.id?.length > 0) {
 			try {
 				getPosts(user_state.id);
 			} catch (error) {
