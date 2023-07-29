@@ -1,9 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import UserModel from "../models/user_model";
 import AuthServices from "../services/auth_services"
-import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import PrismaUserServices from "../services/user_services";
-const dotenv = require("dotenv").config();
 
 const prisma = new PrismaClient();
 const user_service = new PrismaUserServices(prisma);
@@ -56,10 +54,10 @@ const verifyingUser = async (potentialUser: UserModel) => {
 }
 
 const checkLogin = (data: object) => {
+    // maybe combine between verifyingUser and createJwt functions and implement the logic here
     // TODO implement login validation logic here.
     // authService.
 }
-
 
 export default {
     register,

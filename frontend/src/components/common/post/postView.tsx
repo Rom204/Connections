@@ -178,7 +178,7 @@ const PostView = (props: PostViewProps) => {
 						<ul>
 							{props.comments.map((comment) => {
 								return (
-									<li key={comment.user.id}>
+									<li key={comment.id}>
 										{comment.user.username +"  "+ comment.comment}
 									</li>
 								)

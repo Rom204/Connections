@@ -1,8 +1,8 @@
+import { PrismaClient } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
+import { jwtMiddleware } from '../middlewares/authentication';
 import { AuthURLS } from "../utils/urls";
 import auth_controller from '../controllers/auth_controller';
-import { jwtMiddleware } from '../middlewares/authentication';
-import { PrismaClient } from '@prisma/client';
 import AuthServices from '../services/auth_services';
 
 // Authentication related router
@@ -11,16 +11,17 @@ const prisma = new PrismaClient();
 const authService = new AuthServices(prisma)
 
 // Attempt to create a new user 
-router.post(AuthURLS.registerApi, async (request: Request, response: Response) => {
+router.post(AuthURLS.registerApi, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const potentialUserData = request.body;
         response.status(201).json(await auth_controller.register(potentialUserData))
     } catch (error) {
         console.log(error);
-        response.status(409).json(error);
+        next(error);
+        // response.status(409).json(error);
     }
 });
-
+// Attempt to log in 
 router.post(AuthURLS.loginApi, async (request: Request, response: Response) => {
     try {
         const userData = request.body;

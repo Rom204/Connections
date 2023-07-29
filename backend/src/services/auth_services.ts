@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/user_model';
 import { PrismaClient } from '@prisma/client';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import UserModel from '../models/user_model';
 const dotenv = require('dotenv').config();
 
 
@@ -24,9 +24,10 @@ export default class AuthServices {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         return hashedPassword;
     }
-
+    //CRUD methods
+    // ___________________________________________________________________________________
+    // create
     public async createJWT(userData: UserModel): Promise<string> {
-
         const secretKey = process.env.SECRET_ACCESS_TOKEN
         if (!secretKey) {
             throw new Error("Secret key not found");
@@ -40,7 +41,7 @@ export default class AuthServices {
             { data },
             secretKey,
             { expiresIn: "1h" }
-        )
+        );
         return token
     }
 
@@ -59,12 +60,6 @@ export default class AuthServices {
             throw error
         }
     }
-
-    // public async verifyJWT(token: string): Promise<object> {
-
-
-    //     return {}
-    // }
 }
 
 

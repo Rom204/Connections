@@ -1,54 +1,71 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { UserURLS } from '../utils/urls';
 import user_controller from '../controllers/user_controller';
 
-
+// User related routes
 const router = express.Router();
 
+// ___________________________________________________________________________________
+// create
 router.get("/", async (request: Request, response: Response) => {
     response.status(200).json("user controller is working properly")
 })
 
 router.get(UserURLS.getSingleUserApi, async (request: Request, response: Response) => {
-    const user_id = request.params.id;
-    response.status(202).json(await user_controller.getSingleUserByID(user_id))
-})
-
-router.get(UserURLS.getSingleUserFollowersApi, async (request: Request, response: Response) => {
-    const user_id = request.params.id;
-    console.log(user_id);
-    response.status(202).json(await user_controller.getSingleUserFollowers(user_id))
-})
-
-router.get(UserURLS.getSingleUserFollowingsApi, async (request: Request, response: Response) => {
-    const user_id = request.params.id;
-    console.log(user_id);
-    response.status(202).json(await user_controller.getSingleUserFollowings(user_id))
-})
-
-router.post(UserURLS.getAllUsersApi, async (request: Request, response: Response) => {
-    const user_id = request.body.id;
-    console.log(user_id)
-    response.status(201).json(await user_controller.getAllUsers(user_id))
-})
-
-router.post(UserURLS.getFollowedUsersPostsApi, async (request: Request, response: Response) => {
-    const user_id = request.body.id;
-    console.log(user_id)
-    response.status(201).json(await user_controller.getAllFollowedUsers(user_id))
-})
-
-router.delete(UserURLS.getSingleUserApi, async (request: Request, response: Response) => {
-    const user_id = request.params.id;
-    response.status(202).json(await user_controller.deleteUser(user_id))
-})
+    try {
+        const userID = request.params.id;
+        response.status(202).json(await user_controller.getSingleUserByID(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error)
+    }
+});
 
 router.get(UserURLS.getUserByUsernameApi, async (request: Request, response: Response) => {
-    const username = request.body.username;
-    response.status(202).json(await user_controller.getUserByUsername(username))
-})
+    try {
+        const username = request.body.username;
+        response.status(202).json(await user_controller.getUserByUsername(username))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
 
-// follow un follow section
+router.post(UserURLS.getAllUsersApi, async (request: Request, response: Response) => {
+    try {
+        const userID = request.body.id;
+        console.log(userID)
+        response.status(201).json(await user_controller.getAllUsers(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
+
+router.delete(UserURLS.getSingleUserApi, async (request: Request, response: Response) => {
+    try {
+        const userID = request.params.id;
+        response.status(202).json(await user_controller.deleteUser(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
+// ___________________________________________________________________________________
+// follow un-follow section
+// for the feed page , we would like to retrieve only the posts of the users which our user is following after
+router.post(UserURLS.getFollowedUsersPostsApi, async (request: Request, response: Response) => {
+    try {
+        const userID = request.body.id;
+        console.log(userID)
+        response.status(201).json(await user_controller.getAllFollowedUsers(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
+
+// update and create a new follow collection in DB: a user followed another user
 router.put(UserURLS.followUserApi, async (request: Request, response: Response) => {
     try {
         const followedUserID = request.body.followedUser
@@ -60,16 +77,18 @@ router.put(UserURLS.followUserApi, async (request: Request, response: Response) 
             response.status(202).json(await user_controller.followUser(followedUserID, followingUserID))
         }
     } catch (error) {
-        console.log("ROUTER NET", error)
+        console.log(error);
+        response.status(500).json(error);
     }
-})
+});
 
+// update the follow collection and remove in DB: a user unfollowed another user
 router.put(UserURLS.unFollowUserApi, async (request: Request, response: Response) => {
-    console.log("unfollowing")
+    // console.log("unfollowing")
     try {
         const followedUserID = request.body.data.followedUser
         const followingUserID = request.body.data.followingUser
-        console.log("unfollowing,", followedUserID, followingUserID)
+        // console.log("unfollowing,", followedUserID, followingUserID)
         // check for valid input data here
         if (!followedUserID || !followingUserID) {
             throw new Error("did not received params")
@@ -77,7 +96,32 @@ router.put(UserURLS.unFollowUserApi, async (request: Request, response: Response
             response.status(202).json(await user_controller.unFollowUser(followedUserID, followingUserID))
         }
     } catch (error) {
-        console.log("ROUTER NET", error)
+        console.log(error);
+        response.status(500).json(error);
     }
-})
+});
+
+// in order to display all the followers a user has 
+router.get(UserURLS.getSingleUserFollowersApi, async (request: Request, response: Response) => {
+    try {
+        const userID = request.params.id;
+        console.log(userID);
+        response.status(202).json(await user_controller.getSingleUserFollowers(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
+
+// in order to display all the users a user is following after 
+router.get(UserURLS.getSingleUserFollowingsApi, async (request: Request, response: Response) => {
+    try {
+        const userID = request.params.id;
+        console.log(userID);
+        response.status(202).json(await user_controller.getSingleUserFollowings(userID))
+    } catch (error) {
+        console.log(error);
+        response.status(500).json(error);
+    }
+});
 export default router;

@@ -6,6 +6,7 @@ import config from './utils/config';
 import user_routes from './routes/user_routes';
 import post_routes from './routes/post_routes';
 import auth_routes from './routes/auth_routes';
+import errorHandler from './middlewares/error_handler';
 
 // creating a server
 const server = express();
@@ -29,6 +30,8 @@ server.use(express.urlencoded({ limit: "50mb", extended: true }));
 server.use("/user", user_routes);
 server.use("/post", post_routes);
 server.use("/auth", auth_routes);
+
+server.use(errorHandler);
 
 // uploading server with matching PORT 
 const currentPort = config.port;

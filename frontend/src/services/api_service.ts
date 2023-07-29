@@ -25,7 +25,7 @@ export class ApiService {
             return Promise.reject('Instance is not initialized.');
         }
         try {
-            const result = await this.instance.get('auth/check-jwt');
+            const result = await this.instance.get('auth/api/check-jwt');
             console.log(result)
             return result
         } catch (error: any) {

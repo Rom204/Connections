@@ -15,12 +15,9 @@ export default class PrismaUserServices {
     }
 
     //methods
-
-
-
     //CRUD methods
+    // ___________________________________________________________________________________
     //create
-
     public async followUser(followedID: string, followingID: string) {
         try {
             const follower = await this.prisma.user.findUnique({ where: { id: followedID } });
@@ -57,31 +54,9 @@ export default class PrismaUserServices {
             await this.prisma.$disconnect()
         }
     }
+    // ___________________________________________________________________________________
     //read
     public async getAllUsers(user_id: string): Promise<User[]> {
-        // const requestingUser = await this.prisma.user.findUnique({
-        //     where: {
-        //         id: user_id
-        //     },
-        //     include: {
-        //         following: true
-        //     }
-        // });
-        // const usersNotFollowed = await this.prisma.user.findMany({
-        //     where: {
-        //         id: {
-        //             notIn: requestingUser?.following.map((user) => user.id)
-        //         },
-        //         AND: {
-        //             NOT: {
-        //                 id: user_id
-        //             },
-        //         }
-        //     },
-        //     include: {
-        //         posts: true
-        //     }
-        // })
         const allUsers = await this.prisma.user.findMany({
             where: {
                 NOT: {
@@ -113,6 +88,7 @@ export default class PrismaUserServices {
                         likes: true,
                         comments: {
                             select: {
+                                id: true,
                                 user: true,
                                 comment: true
                             }
@@ -129,12 +105,9 @@ export default class PrismaUserServices {
         });
         const followedUsersPosts = allFollowedUsersIDs.flatMap((user) => user.posts);
         console.log(followedUsersPosts)
-        // console.log(allFollowedUsersIDs);
         return followedUsersPosts;
     }
 
-    // public async getAllFollowedUsersPosts(user_id: string)
-    // TODO: there is an error when the promise attribute is set to User
     public async getUser(user: UserModel) {
         const singleUser = await this.prisma.user.findUnique({
             where: {
@@ -145,7 +118,6 @@ export default class PrismaUserServices {
     }
 
     public async getSingleUserByID(user_id: string): Promise<User | null> {
-
         const singleUser = await this.prisma.user.findUnique({
             where: {
                 id: user_id,
@@ -155,9 +127,8 @@ export default class PrismaUserServices {
             }
         });
         return singleUser
-
     }
-    // TODO: there is an error when the promise attribute is set to User
+
     public async getUserByUsername(username: string): Promise<User | null> {
         const user = await this.prisma.user.findUnique({
             where: {
@@ -170,7 +141,7 @@ export default class PrismaUserServices {
     public async getSingleUserFollowers(user_id: string): Promise<User[] | null> {
         const singleUserFollowers = await this.prisma.user.findMany({
             where: {
-                followingIDs : {
+                followingIDs: {
                     hasSome: [user_id]
                 }
             }
@@ -181,7 +152,7 @@ export default class PrismaUserServices {
     public async getSingleUserFollowings(user_id: string): Promise<User[] | null> {
         const singleUserFollowings = await this.prisma.user.findMany({
             where: {
-                followedByIDs : {
+                followedByIDs: {
                     hasSome: [user_id]
                 }
             }
@@ -197,18 +168,11 @@ export default class PrismaUserServices {
         })
         return user
     }
+    // ___________________________________________________________________________________
     //update
     // TODO: update service
-
+    // ___________________________________________________________________________________
     //delete
-    // public async deleteUser(user_id: string): Promise<void> {
-    //     await this.prisma.user.delete({
-    //         where: {
-    //             id: user_id
-    //         }
-    //     })
-    // }
-
     public async unFollowUser(followedID: string, followingID: string): Promise<void> {
         try {
             const follower = await this.prisma.user.findUnique({ where: { id: followedID } });
@@ -239,7 +203,6 @@ export default class PrismaUserServices {
                     }
                 }
             });
-
         } catch (error) {
             throw error
         } finally {

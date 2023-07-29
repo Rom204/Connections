@@ -10,7 +10,8 @@ export default class PrismaPostServices {
         this.prisma = prisma;
     }
     //methods
-
+    //CRUD methods
+    // ___________________________________________________________________________________
     //create
     public async createPost(secure_url: string, post_data: PostModel, author_id: string): Promise<Post> {
         const newPost = await this.prisma.post.create({
@@ -29,7 +30,6 @@ export default class PrismaPostServices {
     }
 
     public async createLike(postID: string, likeAuthor: string) {
-
         const existingLike = await this.prisma.like.findFirst({
             where: {
                 postId: postID,
@@ -53,9 +53,6 @@ export default class PrismaPostServices {
                 throw error
             }
         }
-
-
-
     }
 
     public async createComment (postID: string, commentAuthor: string, comment: string) {
@@ -72,6 +69,7 @@ export default class PrismaPostServices {
             throw error
         }
     }
+    // ___________________________________________________________________________________
     //read
     public async getAllPosts(): Promise<Post[]> {
         const allPosts = await this.prisma.post.findMany();
@@ -93,7 +91,9 @@ export default class PrismaPostServices {
         })
         return userPosts
     }
+    // ___________________________________________________________________________________
     //update
+    // ___________________________________________________________________________________
     //delete
     public async deletePost(post_id: string): Promise<void> {
         await this.prisma.post.delete({
