@@ -1,8 +1,12 @@
-import { Box, Button, Card, TextField } from "@mui/material";
+import { Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AuthServices from "../services/auth_service";
+import MailIcon from "@mui/icons-material/Mail";
+import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
+import KeyIcon from "@mui/icons-material/Key";
+
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -63,6 +67,13 @@ const Register = () => {
 			}
 		}
 	};
+	const [showPassword, setShowPassword] = useState(false);
+
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
 	return (
 		<Box sx={{ height: "100vh", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			{success ? (
@@ -96,28 +107,41 @@ const Register = () => {
 								id="email_input"
 								type="text"
 								fullWidth
-								placeholder="email"
+								placeholder="DonJuan@gmail.com"
 								label="email"
 								variant="filled"
 								error={!validEmail && email?.length > 0}
 								{...register("email")}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<MailIcon />
+										</InputAdornment>
+									),
+								}}
 							/>
 							<TextField
 								sx={{ display: "flex", marginBottom: "10px" }}
 								id="username_input"
 								type="text"
 								fullWidth
-								placeholder="username"
+								placeholder="DonJuan"
 								label="username"
 								variant="filled"
 								error={!validUsername && username?.length > 0}
 								{...register("username")}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<AccountCircle />
+										</InputAdornment>
+									),
+								}}
 							/>
 							<TextField
 								sx={{ display: "flex", marginBottom: "10px" }}
 								id="password_input"
-								// TODO: add visibility function
-								type="password"
+								type={showPassword ? 'text' : 'password'}
 								placeholder="password"
 								label="password"
 								error={!validPassword && password?.length > 0}
@@ -133,12 +157,29 @@ const Register = () => {
 								}
 								variant="filled"
 								{...register("password")}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<KeyIcon />
+										</InputAdornment>
+									),
+									endAdornment: (
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowPassword}
+												onMouseDown={handleMouseDownPassword}>
+												{showPassword ? <VisibilityOff /> : <Visibility />}
+											</IconButton>
+										</InputAdornment>
+									),
+								}}
 							/>
 
 							<TextField
 								sx={{ display: "flex", marginBottom: "10px" }}
 								id="matchingPassword_input"
-								type="password"
+								type={showPassword ? 'text' : 'password'}
 								placeholder="confirm password"
 								label="matching password"
 								variant="filled"
@@ -153,11 +194,28 @@ const Register = () => {
 										setMatchingPasswordFocus(false);
 									},
 								})}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<KeyIcon />
+										</InputAdornment>
+									),
+									endAdornment: (
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowPassword}
+												onMouseDown={handleMouseDownPassword}>
+												{showPassword ? <VisibilityOff /> : <Visibility />}
+											</IconButton>
+										</InputAdornment>
+									),
+								}}
 							/>
 						</Box>
 
 						<Button
-							sx={{ marginBottom: "1rem", height: "4rem", width: "5rem" }}
+							sx={{ marginBottom: "1rem", height: "4rem", width: "100%" }}
 							disabled={username?.length > 3 && password?.length > 7 ? false : true}
 							type="submit"
 							variant="contained"

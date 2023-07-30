@@ -31,6 +31,7 @@ const General_Layout = ({ user }: LayoutProps) => {
 					<Footer
 						description={"nothing at all"}
 						title={"extra"}
+						user={user}
 					/>
 				</footer>
 			</Box>
