@@ -35,8 +35,8 @@ class CommentURLS {
 }
 
 class LikeURLS { 
-    public static createLikeApi = "/create-like";
-    public static deleteLikeApi = "/delete-like";
+    public static handleLikeApi = "/api/handle-like";
+    // public static deleteLikeApi = "/delete-like";
 }
 
 

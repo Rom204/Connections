@@ -23,13 +23,13 @@ router.post(PostURLS.createPostApi, async (request: Request, response: Response,
     }
 })
 
-router.post(LikeURLS.createLikeApi, async (request: Request, response: Response, next: NextFunction) => {
+router.put(LikeURLS.handleLikeApi, async (request: Request, response: Response, next: NextFunction) => {
     const postID = request.body.postID;
     const likeAuthor = request.body.likeAuthor;
     console.log("creating like: ", postID, likeAuthor)
 
     try {
-        response.status(200).json(await post_controller.createLike(postID, likeAuthor))
+        response.status(200).json(await post_controller.handleLike(postID, likeAuthor))
     } catch (error) {
         response.status(409).json(error)
     }

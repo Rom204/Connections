@@ -29,7 +29,7 @@ export default class PrismaPostServices {
         return newPost;
     }
 
-    public async createLike(postID: string, likeAuthor: string) {
+    public async handleLike(postID: string, likeAuthor: string) {
         const existingLike = await this.prisma.like.findFirst({
             where: {
                 postId: postID,
@@ -38,7 +38,15 @@ export default class PrismaPostServices {
         });
 
         if (existingLike) {
-            throw new Error("like record already exists");
+            try {
+                await this.prisma.like.delete({
+                    where: {
+                        id: existingLike.id
+                    }
+                })
+            } catch (error) {
+                throw error
+            }
         }
 
         if (!existingLike) {
@@ -55,7 +63,7 @@ export default class PrismaPostServices {
         }
     }
 
-    public async createComment (postID: string, commentAuthor: string, comment: string) {
+    public async createComment(postID: string, commentAuthor: string, comment: string) {
         try {
             await this.prisma.comment.create({
                 data: {

@@ -33,8 +33,8 @@ const createPost = async (secure_url: string, postData:PostModel, author_id: str
     await service.createPost(secure_url, postData, author_id)
 }
 
-const createLike = async (postID: string, likeAuthor: string) => {
-    await service.createLike(postID, likeAuthor);
+const handleLike = async (postID: string, likeAuthor: string) => {
+    await service.handleLike(postID, likeAuthor);
 }
 
 const createComment = async (postID: string, likeAuthor: string, comment: string) => {
@@ -64,7 +64,7 @@ const deleteAllPosts = async () => {
 
 export default {
     createPost,
-    createLike,
+    handleLike,
     createComment,
     cloudImageUpload,
     getAllPosts,

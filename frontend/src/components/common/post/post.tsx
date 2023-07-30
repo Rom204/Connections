@@ -8,14 +8,14 @@ interface PostProps extends PostModel {
 }
 
 const Post = (props: PostProps) => {
-	const user_state = useAppSelector((state) => state.user);
+	const user = useAppSelector((state) => state.user);
 
 	const handleLikeAction = async () => {
-		console.log(props.id, user_state.id);
+		console.log(props.id, user.id);
 		try {
-			await axios.post("http://localhost:3001/post/create-like", {
+			await axios.put("http://localhost:3001/post/api/handle-like", {
 				postID: props.id,
-				likeAuthor: user_state.id,
+				likeAuthor: user.id,
 			});
 		} catch (error) {
 			console.log(error);
@@ -23,11 +23,11 @@ const Post = (props: PostProps) => {
 	};
 
 	const handleCommentAction = async (comment: string) => {
-		console.log(props.id, user_state.id, comment);
+		console.log(props.id, user.id, comment);
 		try {
 			await axios.post("http://localhost:3001/post/create-comment", {
 				postID: props.id,
-				commentAuthor: user_state.id,
+				commentAuthor: user.id,
 				comment: comment,
 			});
 		} catch (error) {
@@ -53,6 +53,7 @@ const Post = (props: PostProps) => {
 			}}
 			likes={props.likes}
 			comments={props.comments}
+			loggedUserID={user.id}
 		/>
 	);
 };

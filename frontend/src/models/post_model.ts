@@ -1,4 +1,5 @@
 import CommentModel from "./comment_model";
+import LikeModel from "./like_model";
 import UserModel from "./user_model";
 
 export default class PostModel { 
@@ -11,7 +12,8 @@ export default class PostModel {
         id: string
         username: string
     }
-    public likes: string[]
+    // public likes: string[]
+    public likes: LikeModel[]
     public comments: CommentModel[]
     
     constructor(Post: PostModel) {

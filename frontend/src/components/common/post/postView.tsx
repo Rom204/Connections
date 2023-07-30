@@ -1,13 +1,18 @@
 import { Card, CardHeader, Skeleton, Avatar, IconButton, CardMedia, CardContent, Typography, Box, Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
 import PostModel from "../../../models/post_model";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+
+const COMMENT_REGEX = /^[A-z][A-z0-9-_]{1,100}$/;
+
 interface PostViewProps extends PostModel {
+	loggedUserID: string;
 	loading?: boolean;
 	likeAction: () => void;
 	commentSection: () => void;
@@ -15,12 +20,29 @@ interface PostViewProps extends PostModel {
 }
 
 const PostView = (props: PostViewProps) => {
-	
 	const { loading = false } = props;
-	const { register, handleSubmit } = useForm({});
+	const { register, handleSubmit, watch } = useForm({});
+	const [comment] = watch(["comment"]);
+	const [like, setLike] = useState(false);
+	const [validComment, setValidComment] = useState(false);
 
+	useEffect(() => {
+		setValidComment(COMMENT_REGEX.test(comment));
+	}, [comment]);
+
+	useEffect(() => {
+		let found = false;
+		for(let i = 0; i < props.likes.length; i++) {
+			if(props.likes[i].userId === props.loggedUserID) {
+				found = true;
+				break
+			}
+		};
+		setLike(found)
+	},[props.likes])
 
 	const handleLikeButton = () => {
+		setLike((like) => !like)
 		props.likeAction();
 	};
 	const createNewComment = (comment: any) => {
@@ -109,10 +131,11 @@ const PostView = (props: PostViewProps) => {
 					<IconButton
 						aria-label="settings"
 						onClick={() => handleLikeButton()}>
-						<FavoriteBorderOutlinedIcon />
+							{ like ? <FavoriteIcon sx={{ color: "red" }}/> : <FavoriteBorderOutlinedIcon sx={{ color:"white" }} />}
+						
 					</IconButton>
 					<IconButton aria-label="settings">
-						<InsertCommentOutlinedIcon />
+						<InsertCommentOutlinedIcon sx={{ color:"white" }}/>
 					</IconButton>
 				</Box>
 
@@ -133,7 +156,7 @@ const PostView = (props: PostViewProps) => {
 					) : (
 						<Typography
 							variant="body2"
-							color="text.secondary"
+							color="white"
 							component="p">
 							{props.likes.length > 0 ? props.likes.length + "Likes" : "No likes yet"}
 						</Typography>
@@ -207,7 +230,11 @@ const PostView = (props: PostViewProps) => {
 							{...register("comment")}
 						/>
 						
-						<Button type="submit">enter comment</Button>
+						<Button 
+						sx={{color: "white"}}
+						variant="outlined"
+						disabled={comment && validComment ? false : true}
+						type="submit">Post</Button>
 					</form>
 					</div>
 					)}
