@@ -7,7 +7,6 @@ import { useAppDispatch } from "../redux/hooks";
 import { login } from "../redux/features/user/userSlice";
 import LoginIcon from "@mui/icons-material/Login";
 import KeyIcon from "@mui/icons-material/Key";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
@@ -42,12 +41,15 @@ const Login = () => {
 						navigation("/feed");
 					});
 			} catch (error: any) {
+				// TODO : create an error handler for login and register 
 				console.log(error);
 				if (!error?.response) {
 					setErrMsg("no server response");
 				}
 				if (error.response?.status === 404) {
 					setErrMsg("invalid username or password");
+				} else {
+					setErrMsg("Unable to process please try again later");
 				}
 			}
 		}
@@ -114,6 +116,7 @@ const Login = () => {
 							<strong>sign-up now</strong>
 						</Button>
 					</p>
+					{errMsg ? <h2 style={{ color: "red" }}>{errMsg}</h2> : ""}
 					<Button
 						sx={{ height: "3rem", width: "100%", position: "absolute", bottom: 0 }}
 						disabled={username?.length > 3 && password?.length > 7 ? false : true}

@@ -7,7 +7,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
 import KeyIcon from "@mui/icons-material/Key";
 
-
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -63,7 +62,13 @@ const Register = () => {
 					setSuccess(true);
 				}
 			} catch (error: any) {
-				console.log("this is frontend level", error);
+				// TODO : create an error handler for login and register 
+				console.log(error);
+				if (error.response?.status === 404) {
+					setErrorMessage("username or email already taken");
+				} else {
+					setErrorMessage("Unable to process please try again later");
+				}
 			}
 		}
 	};
@@ -75,7 +80,7 @@ const Register = () => {
 		event.preventDefault();
 	};
 	return (
-		<Box sx={{ height: "100vh", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
+		<Box sx={{ height: "85vh", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			{success ? (
 				<Card
 					elevation={24}
@@ -96,123 +101,122 @@ const Register = () => {
 					sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "90%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<h1>Register</h1>
 					<form
+						style={{ width: "60vw", display: "flex", flexDirection: "column" }}
 						// TODO: change unknown
 						onSubmit={handleSubmit((data: unknown) => {
 							console.log(data);
 							registerValidation(data);
 						})}>
-						<Box sx={{ width: "60vw", display: "flex", flexDirection: "column" }}>
-							<TextField
-								sx={{ display: "flex", marginBottom: "10px" }}
-								id="email_input"
-								type="text"
-								fullWidth
-								placeholder="DonJuan@gmail.com"
-								label="email"
-								variant="filled"
-								error={!validEmail && email?.length > 0}
-								{...register("email")}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<MailIcon />
-										</InputAdornment>
-									),
-								}}
-							/>
-							<TextField
-								sx={{ display: "flex", marginBottom: "10px" }}
-								id="username_input"
-								type="text"
-								fullWidth
-								placeholder="DonJuan"
-								label="username"
-								variant="filled"
-								error={!validUsername && username?.length > 0}
-								{...register("username")}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<AccountCircle />
-										</InputAdornment>
-									),
-								}}
-							/>
-							<TextField
-								sx={{ display: "flex", marginBottom: "10px" }}
-								id="password_input"
-								type={showPassword ? 'text' : 'password'}
-								placeholder="password"
-								label="password"
-								error={!validPassword && password?.length > 0}
-								helperText={
-									!validPassword && password?.length > 0 ? (
-										<span className="instructions">
-											{" "}
-											8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
-										</span>
-									) : (
-										""
-									)
-								}
-								variant="filled"
-								{...register("password")}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<KeyIcon />
-										</InputAdornment>
-									),
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={handleClickShowPassword}
-												onMouseDown={handleMouseDownPassword}>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									),
-								}}
-							/>
+						<TextField
+							sx={{ display: "flex", marginBottom: "10px" }}
+							id="email_input"
+							type="text"
+							fullWidth
+							placeholder="DonJuan@gmail.com"
+							label="email"
+							variant="filled"
+							error={!validEmail && email?.length > 0}
+							{...register("email")}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<MailIcon />
+									</InputAdornment>
+								),
+							}}
+						/>
+						<TextField
+							sx={{ display: "flex", marginBottom: "10px" }}
+							id="username_input"
+							type="text"
+							fullWidth
+							placeholder="DonJuan"
+							label="username"
+							variant="filled"
+							error={!validUsername && username?.length > 0}
+							{...register("username")}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<AccountCircle />
+									</InputAdornment>
+								),
+							}}
+						/>
+						<TextField
+							sx={{ display: "flex", marginBottom: "10px" }}
+							id="password_input"
+							type={showPassword ? "text" : "password"}
+							placeholder="password"
+							label="password"
+							error={!validPassword && password?.length > 0}
+							helperText={
+								!validPassword && password?.length > 0 ? (
+									<span className="instructions">
+										{" "}
+										8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+									</span>
+								) : (
+									""
+								)
+							}
+							variant="filled"
+							{...register("password")}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<KeyIcon />
+									</InputAdornment>
+								),
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
 
-							<TextField
-								sx={{ display: "flex", marginBottom: "10px" }}
-								id="matchingPassword_input"
-								type={showPassword ? 'text' : 'password'}
-								placeholder="confirm password"
-								label="matching password"
-								variant="filled"
-								// TODO: consider change that function because of exposure of the regular password
-								error={!validMatchingPassword && matchingPassword?.length > 0}
-								helperText={!validMatchingPassword && matchingPassword?.length > 0 ? "both password must be the same" : ""}
-								onFocus={() => {
-									setMatchingPasswordFocus(true);
-								}}
-								{...register("matchingPassword", {
-									onBlur: () => {
-										setMatchingPasswordFocus(false);
-									},
-								})}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<KeyIcon />
-										</InputAdornment>
-									),
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={handleClickShowPassword}
-												onMouseDown={handleMouseDownPassword}>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									),
-								}}
-							/>
-						</Box>
+						<TextField
+							sx={{ display: "flex", marginBottom: "10px" }}
+							id="matchingPassword_input"
+							type={showPassword ? "text" : "password"}
+							placeholder="confirm password"
+							label="matching password"
+							variant="filled"
+							// TODO: consider change that function because of exposure of the regular password
+							error={!validMatchingPassword && matchingPassword?.length > 0}
+							helperText={!validMatchingPassword && matchingPassword?.length > 0 ? "both password must be the same" : ""}
+							onFocus={() => {
+								setMatchingPasswordFocus(true);
+							}}
+							{...register("matchingPassword", {
+								onBlur: () => {
+									setMatchingPasswordFocus(false);
+								},
+							})}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<KeyIcon />
+									</InputAdornment>
+								),
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
 
 						<Button
 							sx={{ marginBottom: "1rem", height: "4rem", width: "100%" }}
@@ -220,10 +224,10 @@ const Register = () => {
 							type="submit"
 							variant="contained"
 							color="info">
-							{/* <EastIcon /> */}
 							sign up
 						</Button>
 					</form>
+					{errorMessage ? <h2 style={{ color: "red" }}>{errorMessage}</h2> : ""}
 					<p>
 						have an account ? <br />
 						<Button
