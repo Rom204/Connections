@@ -18,7 +18,7 @@ const Main = ({ user }: MainProps) => {
 	console.log(user);
 	console.log("main level 4");
 	return (
-		<Box>
+		<Box sx={{ height:"100%" }}>
 			{/* PROTECTED ROUTES */}
 			<Routes>
 				<Route

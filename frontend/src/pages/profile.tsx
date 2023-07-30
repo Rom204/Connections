@@ -35,14 +35,14 @@ const Profile = () => {
 			console.log(error);
 		}
 	};
-	const Item = styled(Paper)(({ theme }) => ({
-		...theme.typography.body2,
-		padding: theme.spacing(1),
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-	}));
+	// const Item = styled(Paper)(({ theme }) => ({
+		
+	// 	padding: theme.spacing(1),
+	// 	textAlign: "center",
+	// 	color: theme.palette.text.secondary,
+	// }));
 	return (
-		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", height:"100%" }}>
 			<User_interaction
 				key={userProfile?.id}
 				interactedUser={userProfile}
@@ -51,23 +51,25 @@ const Profile = () => {
 					throw new Error("Function not implemented.");
 				}}
 			/>
-			<Grid
-				container
-				rowSpacing={1}
-				columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-				{userProfile?.posts?.map((post) => {
-					return (
-						<Grid
-							key={post.id}
-							item
-							xs={6}>
-							<NavLink to={""}>
-								<Item sx={{ height: "50vh", backgroundImage: `url(${post.secure_url})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
-							</NavLink>
-						</Grid>
-					);
-				})}
-			</Grid>
+			<Box sx={{  overflowY: "scroll", "&::-webkit-scrollbar": { display: "none" } , height:"100%", width:"100%"}}>
+				<Grid
+					container
+					rowSpacing={1}
+					columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+					{userProfile?.posts?.map((post) => {
+						return (
+							<Grid
+								key={post.id}
+								item
+								xs={6}>
+								<NavLink to={""}>
+									<Box sx={{ height: "10rem", backgroundImage: `url(${post.secure_url})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
+								</NavLink>
+							</Grid>
+						);
+					})}
+				</Grid>
+			</Box>
 		</Box>
 	);
 };

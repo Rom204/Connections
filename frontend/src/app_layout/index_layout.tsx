@@ -15,7 +15,7 @@ const General_Layout = ({ user }: LayoutProps) => {
 	console.log("layout level 3");
 
 	return (
-		<Box sx={{ display: "flex" }}>
+		<Box sx={{ display: "flex", height:'100%' }}>
 			<header style={{ width:"20%" }}>
 				<Header user={user} />
 			</header>

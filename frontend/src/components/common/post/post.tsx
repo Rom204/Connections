@@ -36,7 +36,7 @@ const Post = (props: PostProps) => {
 	};
 	return (
 		<PostView
-			loading={false}
+			loading={props.loading}
 			likeAction={handleLikeAction}
 			commentSection={function (): void {
 				throw new Error("Function not implemented.");

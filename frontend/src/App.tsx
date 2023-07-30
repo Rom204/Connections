@@ -45,6 +45,8 @@ const App = () => {
 					}
 					setModalOpen(true);
 				});
+		} else {
+			setLoading(false)
 		}
 	}, [user]);
 
@@ -60,7 +62,7 @@ const App = () => {
 		);
 	}
 	return (
-		<div style={{ backgroundColor: "#393646", color: "white" }}>
+		<div style={{ backgroundColor: "#393646", color: "white", height:"100%" }}>
 			<General_Layout user={user} />
 			<Modal
 				open={modalOpen}

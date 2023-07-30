@@ -1,4 +1,4 @@
-import { Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Backdrop, Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import AuthServices from "../services/auth_service";
 import MailIcon from "@mui/icons-material/Mail";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
 import KeyIcon from "@mui/icons-material/Key";
+import { Dna } from "react-loader-spinner";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -13,6 +14,7 @@ const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
 
 const authService = new AuthServices();
 const Register = () => {
+	const [loading, setLoading] = useState(false);
 	const navigation = useNavigate();
 	const { register, handleSubmit, watch } = useForm<any>({
 		defaultValues: {},
@@ -60,10 +62,12 @@ const Register = () => {
 				console.log(registration);
 				if (registration) {
 					setSuccess(true);
+					setLoading(false);
 				}
 			} catch (error: any) {
-				// TODO : create an error handler for login and register 
+				// TODO : create an error handler for login and register
 				console.log(error);
+				setTimeout(() => setLoading(false),2000);
 				if (error.response?.status === 404) {
 					setErrorMessage("username or email already taken");
 				} else {
@@ -79,8 +83,12 @@ const Register = () => {
 	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 	};
+
+	const handleLoading = () => {
+		setLoading(true);
+	};
 	return (
-		<Box sx={{ height: "85vh", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
+		<Box sx={{ height: "85%", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			{success ? (
 				<Card
 					elevation={24}
@@ -101,9 +109,10 @@ const Register = () => {
 					sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "90%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<h1>Register</h1>
 					<form
-						style={{ width: "60vw", display: "flex", flexDirection: "column" }}
+						style={{ width: "95%", display: "flex", flexDirection: "column" }}
 						// TODO: change unknown
 						onSubmit={handleSubmit((data: unknown) => {
+							handleLoading();
 							console.log(data);
 							registerValidation(data);
 						})}>
@@ -220,7 +229,7 @@ const Register = () => {
 
 						<Button
 							sx={{ marginBottom: "1rem", height: "4rem", width: "100%" }}
-							disabled={username?.length > 3 && password?.length > 7 ? false : true}
+							disabled={validEmail && validUsername && validPassword && validMatchingPassword ? false : true}
 							type="submit"
 							variant="contained"
 							color="info">
@@ -239,6 +248,19 @@ const Register = () => {
 					</p>
 				</Card>
 			)}
+			<Backdrop
+				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+				open={loading}
+				onClick={() => setLoading(false)}>
+				<Dna
+					visible={true}
+					height="80"
+					width="80"
+					ariaLabel="dna-loading"
+					wrapperStyle={{}}
+					wrapperClass="dna-wrapper"
+				/>
+			</Backdrop>
 		</Box>
 	);
 };

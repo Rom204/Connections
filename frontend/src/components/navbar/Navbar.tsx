@@ -59,7 +59,7 @@ const Navbar = () => {
 		{ name: "explore", path: "/explore" },
 	];
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column", position: "fixed" }}>
+		<Box sx={{ display: "flex", flexDirection: "column", position: "fixed",height:"100%" }}>
 			<img src={logo} alt="" style={{ height:"6rem", width: "6rem" }} />
 			{navigation.map((item) => {
 				return (

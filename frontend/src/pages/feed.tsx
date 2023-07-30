@@ -8,8 +8,10 @@ import PostModel from "../models/post_model";
 const Feed = () => {
 	const user_state = useAppSelector((state) => state.user);
 	const [followedUsersPosts, setFollowedUsersPosts] = useState<PostModel[]>([]);
+	const [loading, setLoading] = useState(true);
+
 	console.log("this is the feed component");
-	
+
 	useEffect(() => {
 		if (user_state?.id?.length > 0) {
 			try {
@@ -30,12 +32,13 @@ const Feed = () => {
 			.then((response) => {
 				console.log(response.data);
 				setFollowedUsersPosts(response.data);
+				setTimeout(() => setLoading(false),1000)
 			});
 	};
 	console.log(followedUsersPosts);
 
 	return (
-		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent:"center", textAlign: "center", alignItems: "center", position:"relative", color: "white" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap",overflowY:"scroll", "&::-webkit-scrollbar": { display: "none"}, justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", color: "white", height:"100%" }}>
 			{followedUsersPosts.map((post) => {
 				return (
 					<Post
@@ -51,6 +54,7 @@ const Feed = () => {
 						}}
 						likes={post.likes}
 						comments={post.comments}
+						loading={loading}
 					/>
 				);
 			})}
