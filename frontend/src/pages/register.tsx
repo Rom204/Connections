@@ -67,7 +67,7 @@ const Register = () => {
 			} catch (error: any) {
 				// TODO : create an error handler for login and register
 				console.log(error);
-				setTimeout(() => setLoading(false),2000);
+				setTimeout(() => setLoading(false),3000);
 				if (error.response?.status === 404) {
 					setErrorMessage("username or email already taken");
 				} else {
@@ -106,7 +106,7 @@ const Register = () => {
 			) : (
 				<Card
 					elevation={24}
-					sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "90%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
+					sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "100%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<h1>Register</h1>
 					<form
 						style={{ width: "95%", display: "flex", flexDirection: "column" }}
@@ -250,8 +250,7 @@ const Register = () => {
 			)}
 			<Backdrop
 				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={loading}
-				onClick={() => setLoading(false)}>
+				open={loading}>
 				<Dna
 					visible={true}
 					height="80"

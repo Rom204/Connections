@@ -28,7 +28,7 @@ const PostView = (props: PostViewProps) => {
 	}
 
 	return (
-		<Card sx={{ width: { xs: "80%", sm: "60%" }, margin: "1rem", backgroundColor: "transparent", color: "white" }}>
+		<Card sx={{ width: "100%", margin: "1rem", backgroundColor: "transparent", color: "white" }}>
 			<CardHeader
 			sx={{ color: 'white' }}
 				avatar={

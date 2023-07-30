@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Backdrop, Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,8 +8,10 @@ import { login } from "../redux/features/user/userSlice";
 import LoginIcon from "@mui/icons-material/Login";
 import KeyIcon from "@mui/icons-material/Key";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Dna } from "react-loader-spinner";
 
 const Login = () => {
+	const [loading, setLoading] = useState(false);
 	const dispatch = useAppDispatch();
 	const { register, handleSubmit, watch } = useForm({});
 	const navigation = useNavigate();
@@ -35,14 +37,16 @@ const Login = () => {
 						password: data.password,
 					})
 					.then((response) => {
+						setLoading(false);
 						const token: string = response.headers.authorization?.split(" ")[1];
 						localStorage.setItem("JWT", token);
 						dispatch(login(response.data));
 						navigation("/feed");
 					});
 			} catch (error: any) {
-				// TODO : create an error handler for login and register 
+				// TODO : create an error handler for login and register
 				console.log(error);
+				setTimeout(() => setLoading(false), 2000);
 				if (!error?.response) {
 					setErrMsg("no server response");
 				}
@@ -54,19 +58,24 @@ const Login = () => {
 			}
 		}
 	};
+	const handleLoading = () => {
+		setLoading(true);
+	};
 
 	return (
-		<Box sx={{ height: "80vh", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
+		<Box sx={{ height: "100%", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			<Card
 				elevation={24}
-				sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "50%", md: "50%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
+				sx={{ backgroundColor: "whitesmoke", height: "50%", width: { xs: "100%", sm: "80%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 				<h1>login</h1>
 				<form
 					style={{ width: "90%", height: "100%", display: "flex", flexDirection: "column", padding: "0", marginBottom: "3rem", position: "relative" }}
 					onSubmit={handleSubmit((data: unknown) => {
+						handleLoading();
 						loginValidation(data);
 					})}>
 					<TextField
+						sx={{ marginBottom: "2rem" }}
 						id="username_input"
 						type="text"
 						placeholder="username"
@@ -83,7 +92,7 @@ const Login = () => {
 					/>
 					<TextField
 						id="password_input"
-						type={showPassword ? 'text' : 'password'}
+						type={showPassword ? "text" : "password"}
 						placeholder="password"
 						label="password"
 						variant="standard"
@@ -128,6 +137,18 @@ const Login = () => {
 					</Button>
 				</form>
 			</Card>
+			<Backdrop
+				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+				open={loading}>
+				<Dna
+					visible={true}
+					height="80"
+					width="80"
+					ariaLabel="dna-loading"
+					wrapperStyle={{}}
+					wrapperClass="dna-wrapper"
+				/>
+			</Backdrop>
 		</Box>
 	);
 };
