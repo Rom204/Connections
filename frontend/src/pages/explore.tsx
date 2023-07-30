@@ -22,11 +22,11 @@ const Explore = () => {
 
 	const getUsers = async () => {
 		const response = await axios.post("http://localhost:3001/user/all-users", {
-				id: user_state.id,
-			});
-			
-			let data = response.data;
-			setAllUsers(data);
+			id: user_state.id,
+		});
+
+		let data = response.data;
+		setAllUsers(data);
 	};
 	return (
 		<div>
@@ -34,19 +34,20 @@ const Explore = () => {
 				sx={{
 					width: "100wv",
 					height: 500,
-					backgroundColor: "primary.dark",
-					
 				}}>
 				<h1>this is the Explore page</h1>
 				<div>
 					{allUsers.map((interactedUser) => {
-						return <User_interaction 
-                            key={interactedUser.id}
-                            interactedUser={interactedUser} 
-                            user_id={user_state.id}
-                            followStatus={function (): void {
-                            throw new Error("Function not implemented.");
-                        } }/>
+						return (
+							<User_interaction
+								key={interactedUser.id}
+								interactedUser={interactedUser}
+								user_id={user_state.id}
+								followStatus={function (): void {
+									throw new Error("Function not implemented.");
+								}}
+							/>
+						);
 					})}
 				</div>
 			</Box>

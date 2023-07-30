@@ -15,26 +15,22 @@ const General_Layout = ({ user }: LayoutProps) => {
 	console.log("layout level 3");
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column" }}>
-			<Box>
-				<header>
-					<Header user={user} />
-				</header>
-			</Box>
-			<Box>
-				<main>
-					<Main user={user} />
-				</main>
-			</Box>
-			<Box>
-				<footer>
-					<Footer
-						description={"nothing at all"}
-						title={"extra"}
-						user={user}
-					/>
-				</footer>
-			</Box>
+		<Box sx={{ display: "flex" }}>
+			<header style={{ width:"20%" }}>
+				<Header user={user} />
+			</header>
+
+			<main style={{ width:"60%" }}>
+				<Main user={user} />
+			</main>
+
+			<footer style={{ width:"30%" }}>
+				<Footer
+					description={"nothing at all"}
+					title={"extra"}
+					user={user}
+				/>
+			</footer>
 		</Box>
 	);
 };

@@ -35,7 +35,7 @@ const Feed = () => {
 	console.log(followedUsersPosts);
 
 	return (
-		<Box sx={{ backgroundColor: "grey",  display: "flex", flexWrap: "wrap", justifyContent:"center", textAlign: "center", alignItems: "center", position:"relative" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent:"center", textAlign: "center", alignItems: "center", position:"relative", color: "white" }}>
 			{followedUsersPosts.map((post) => {
 				return (
 					<Post

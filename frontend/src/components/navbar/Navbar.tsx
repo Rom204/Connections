@@ -6,6 +6,7 @@ import CreatePost from "../CreatePost/createPost";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import logo from "../../c637fc51e3174133b678daa8979e1bee.png";
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -18,7 +19,6 @@ const Navbar = () => {
 	const { register, handleSubmit } = useForm({});
 
 	const handleFile = (e: any) => {
-		// console.log(e.target.files);
 		const file = e.target.files[0];
 		setFile(e.target.files[0]);
 		previewFile(file);
@@ -29,7 +29,7 @@ const Navbar = () => {
 		reader.readAsDataURL(file);
 
 		reader.onloadend = () => {
-			setImage(reader.result) ;
+			setImage(reader.result);
 		};
 	};
 
@@ -59,37 +59,30 @@ const Navbar = () => {
 		{ name: "explore", path: "/explore" },
 	];
 	return (
-		<Box sx={{ display: "flex" }}>
-			Navbar
+		<Box sx={{ display: "flex", flexDirection: "column", position: "fixed" }}>
+			<img src={logo} alt="" style={{ height:"6rem", width: "6rem" }} />
 			{navigation.map((item) => {
 				return (
 					<NavLink
 						state={item.name === "profile" ? isAuth.id : ""}
 						key={item.name}
 						to={item.path}
-						className="NavLink">
+						style={{ textDecoration: "none", color: "white" }}>
 						<Button
 							color="inherit"
-							sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959", borderBottom: "5px solid #2596be" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
+							sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959"}, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
 							{item.name}
 						</Button>
 					</NavLink>
 				);
 			})}
 			<Button
-				onClick={() => {
-					dispatch(logout());
-					localStorage.removeItem("JWT");
-					navigate("/login");
-				}}>
-				log out
+				sx={{ color: "white" }}
+				variant="outlined"
+				onClick={handleClickOpen}>
+				Create
 			</Button>
 			<Box>
-				<Button
-					variant="outlined"
-					onClick={handleClickOpen}>
-					Open form dialog
-				</Button>
 				<Dialog
 					open={open}
 					onClose={handleClose}>
@@ -140,6 +133,15 @@ const Navbar = () => {
 					</DialogActions>
 				</Dialog>
 			</Box>
+			<Button
+				onClick={() => {
+					dispatch(logout());
+					localStorage.removeItem("JWT");
+					navigate("/login");
+				}}>
+				log out
+			</Button>
+			<hr />
 		</Box>
 	);
 };

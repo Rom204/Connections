@@ -36,14 +36,13 @@ const Profile = () => {
 		}
 	};
 	const Item = styled(Paper)(({ theme }) => ({
-		// backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
 		...theme.typography.body2,
 		padding: theme.spacing(1),
 		textAlign: "center",
 		color: theme.palette.text.secondary,
 	}));
 	return (
-		<Box sx={{ backgroundColor: "white", display: "flex", flexWrap: "wrap", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative" }}>
 			<User_interaction
 				key={userProfile?.id}
 				interactedUser={userProfile}

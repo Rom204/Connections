@@ -28,8 +28,9 @@ const PostView = (props: PostViewProps) => {
 	}
 
 	return (
-		<Card sx={{ width: { xs: "80%", sm: "60%" }, margin: "1rem", backgroundColor: "transparent" }}>
+		<Card sx={{ width: { xs: "80%", sm: "60%" }, margin: "1rem", backgroundColor: "transparent", color: "white" }}>
 			<CardHeader
+			sx={{ color: 'white' }}
 				avatar={
 					loading ? (
 						<Skeleton
@@ -48,7 +49,7 @@ const PostView = (props: PostViewProps) => {
 				action={
 					loading ? null : (
 						<IconButton aria-label="settings">
-							<MoreVertIcon />
+							<MoreVertIcon sx={{ color: "white" }}/>
 						</IconButton>
 					)
 				}
@@ -64,7 +65,7 @@ const PostView = (props: PostViewProps) => {
 						<NavLink
 							state={props.author.id}
 							to={`/profile/${props.author.username}`}
-							className="NavLink">
+							style={{ textDecoration: 'none', color: "white"}}>
 							<Button
 								color="inherit"
 								sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959", borderBottom: "5px solid #2596be" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
@@ -81,9 +82,13 @@ const PostView = (props: PostViewProps) => {
 							width="40%"
 						/>
 					) : (
-						"5 hours ago"
+						// Math.floor(Math.floor(new Date().getTime() - new Date(props.createdAt).getTime()) / 1000 / 60 / 60) + " hours ago"
+						<p style={{ color: "white" , margin:0, padding: 0}}>
+							{new Date(props.createdAt).toLocaleDateString()}
+						</p>
 					)
 				}
+				
 			/>
 			{loading ? (
 				<Skeleton
@@ -152,7 +157,7 @@ const PostView = (props: PostViewProps) => {
 					) : (
 						<Typography
 							variant="body2"
-							color="text.secondary"
+							color="white"
 							component="p">
 							{props.author.username + " : " + props.body}
 						</Typography>
@@ -178,7 +183,7 @@ const PostView = (props: PostViewProps) => {
 						<ul>
 							{props.comments.map((comment) => {
 								return (
-									<li key={comment.id}>
+									<li key={comment.id} style={{color:"white"}}>
 										{comment.user.username +"  "+ comment.comment}
 									</li>
 								)
@@ -191,6 +196,7 @@ const PostView = (props: PostViewProps) => {
 						})}>
 						
 						<TextField
+							sx={{textColor:"white"}}
 							autoFocus
 							margin="dense"
 							id="name"

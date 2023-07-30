@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { ApiService } from "./services/api_service";
 import { login, logout } from "./redux/features/user/userSlice";
 import General_Layout from "./app_layout/index_layout";
+import { InfinitySpin } from "react-loader-spinner";
 
 const App = () => {
 	console.log("render stage: app");
 	const apiService = new ApiService();
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
+	const [loading, setLoading] = useState(true);
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalMessage, setModalMessage] = useState("");
@@ -20,15 +22,18 @@ const App = () => {
 		setModalOpen(false);
 	};
 	useEffect(() => {
-		console.log(user)
+		console.log(user);
 		if (user?.id?.length > 0) return; //checking if there is any user state initialized
-		
+
 		const token = localStorage.getItem("JWT");
 		if (token) {
 			// check if the jwt we have in the local storage is valid
 			apiService
 				.isJwtValid()
-				.then((response) => dispatch(login(response.data)))
+				.then((response) => {
+					dispatch(login(response.data));
+					setTimeout(() => setLoading(false), 3000);
+				})
 				.catch(function (error) {
 					switch (error.response.status) {
 						case 404:
@@ -41,10 +46,21 @@ const App = () => {
 					setModalOpen(true);
 				});
 		}
-	}, []);
+	}, [user]);
 
+	if (loading) {
+		return (
+			<div style={{ display: "flex", flexDirection: "column", backgroundColor: "#393646", height: "100vh", justifyContent: "center", alignItems: "center" }}>
+				<InfinitySpin
+					width="200"
+					color="#4fa94d"
+				/>
+				<h1 style={{ color: "white" }}>Connections</h1>
+			</div>
+		);
+	}
 	return (
-		<div className="App">
+		<div style={{ backgroundColor: "#393646", color: "white" }}>
 			<General_Layout user={user} />
 			<Modal
 				open={modalOpen}
