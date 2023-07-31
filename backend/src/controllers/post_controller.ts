@@ -34,7 +34,7 @@ const createPost = async (secure_url: string, postData:PostModel, author_id: str
 }
 
 const handleLike = async (postID: string, likeAuthor: string) => {
-    await service.handleLike(postID, likeAuthor);
+    return await service.handleLike(postID, likeAuthor);
 }
 
 const createComment = async (postID: string, likeAuthor: string, comment: string) => {

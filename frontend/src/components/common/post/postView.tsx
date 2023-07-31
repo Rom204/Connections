@@ -1,19 +1,24 @@
-import { Card, CardHeader, Skeleton, Avatar, IconButton, CardMedia, CardContent, Typography, Box, Button, TextField } from "@mui/material";
+import { Card, CardHeader, Skeleton, Avatar, IconButton, CardMedia, CardContent, Typography, Box, Button, TextField, InputAdornment, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
 import PostModel from "../../../models/post_model";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { RotatingLines } from "react-loader-spinner";
+import LoopIcon from "@mui/icons-material/Loop";
+import SendIcon from "@mui/icons-material/Send";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
-const COMMENT_REGEX = /^[A-z][A-z0-9-_]{1,100}$/;
+const COMMENT_REGEX = /^[A-z][A-z0-9-_ ,.]{1,100}$/;
 
 interface PostViewProps extends PostModel {
 	loggedUserID: string;
 	loading?: boolean;
+	uploadingComment?: boolean;
 	likeAction: () => void;
 	commentSection: () => void;
 	commentAction: (comment: string) => void;
@@ -24,6 +29,7 @@ const PostView = (props: PostViewProps) => {
 	const { register, handleSubmit, watch } = useForm({});
 	const [comment] = watch(["comment"]);
 	const [like, setLike] = useState(false);
+	// const [uploadingComment, setLoadingComment] = useState(false);
 	const [validComment, setValidComment] = useState(false);
 
 	useEffect(() => {
@@ -32,27 +38,27 @@ const PostView = (props: PostViewProps) => {
 
 	useEffect(() => {
 		let found = false;
-		for(let i = 0; i < props.likes.length; i++) {
-			if(props.likes[i].userId === props.loggedUserID) {
+		for (let i = 0; i < props.likes.length; i++) {
+			if (props.likes[i].userId === props.loggedUserID) {
 				found = true;
-				break
+				break;
 			}
-		};
-		setLike(found)
-	},[props.likes])
+		}
+		setLike(found);
+	}, [props.likes]);
 
 	const handleLikeButton = () => {
-		setLike((like) => !like)
+		setLike((like) => !like);
 		props.likeAction();
 	};
 	const createNewComment = (comment: any) => {
-		props.commentAction(comment)
-	}
+		props.commentAction(comment);
+	};
 
 	return (
 		<Card sx={{ width: "100%", margin: "1rem", backgroundColor: "transparent", color: "white" }}>
 			<CardHeader
-			sx={{ color: 'white' }}
+				sx={{ color: "white" }}
 				avatar={
 					loading ? (
 						<Skeleton
@@ -71,7 +77,7 @@ const PostView = (props: PostViewProps) => {
 				action={
 					loading ? null : (
 						<IconButton aria-label="settings">
-							<MoreVertIcon sx={{ color: "white" }}/>
+							<MoreVertIcon sx={{ color: "white" }} />
 						</IconButton>
 					)
 				}
@@ -87,7 +93,7 @@ const PostView = (props: PostViewProps) => {
 						<NavLink
 							state={props.author.id}
 							to={`/profile/${props.author.username}`}
-							style={{ textDecoration: 'none', color: "white"}}>
+							style={{ textDecoration: "none", color: "white" }}>
 							<Button
 								color="inherit"
 								sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959", borderBottom: "5px solid #2596be" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
@@ -105,12 +111,9 @@ const PostView = (props: PostViewProps) => {
 						/>
 					) : (
 						// Math.floor(Math.floor(new Date().getTime() - new Date(props.createdAt).getTime()) / 1000 / 60 / 60) + " hours ago"
-						<p style={{ color: "white" , margin:0, padding: 0}}>
-							{new Date(props.createdAt).toLocaleDateString()}
-						</p>
+						<p style={{ color: "white", margin: 0, padding: 0 }}>{new Date(props.createdAt).toLocaleDateString()}</p>
 					)
 				}
-				
 			/>
 			{loading ? (
 				<Skeleton
@@ -131,11 +134,10 @@ const PostView = (props: PostViewProps) => {
 					<IconButton
 						aria-label="settings"
 						onClick={() => handleLikeButton()}>
-							{ like ? <FavoriteIcon sx={{ color: "red" }}/> : <FavoriteBorderOutlinedIcon sx={{ color:"white" }} />}
-						
+						{like ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteBorderOutlinedIcon sx={{ color: "white" }} />}
 					</IconButton>
 					<IconButton aria-label="settings">
-						<InsertCommentOutlinedIcon sx={{ color:"white" }}/>
+						<InsertCommentOutlinedIcon sx={{ color: "white" }} />
 					</IconButton>
 				</Box>
 
@@ -203,44 +205,58 @@ const PostView = (props: PostViewProps) => {
 						</React.Fragment>
 					) : (
 						<div>
-						<ul>
-							{props.comments.map((comment) => {
-								return (
-									<li key={comment.id} style={{color:"white"}}>
-										{comment.user.username +"  "+ comment.comment}
-									</li>
-								)
-							})}
-						</ul>
-						<form
-						onSubmit={handleSubmit((data) => {
-							console.log(data);
-							createNewComment(data);
-						})}>
-						
-						<TextField
-							sx={{textColor:"white"}}
-							autoFocus
-							margin="dense"
-							id="name"
-							label="comment"
-							type="text"
-							fullWidth
-							variant="standard"
-							{...register("comment")}
-						/>
-						
-						<Button 
-						sx={{color: "white"}}
-						variant="outlined"
-						disabled={comment && validComment ? false : true}
-						type="submit">Post</Button>
-					</form>
-					</div>
+							<ul>
+								{props.comments.map((comment) => {
+									return (
+										<li
+											key={comment.id}
+											style={{ color: "white" }}>
+											{comment.user.username + "  " + comment.comment}
+										</li>
+									);
+								})}
+							</ul>
+							<form
+								onSubmit={handleSubmit((data) => {
+									console.log(data);
+									createNewComment(data);
+								})}>
+								<TextField
+									color="primary"
+									sx={{ input: { color: "white" } }}
+									autoFocus
+									margin="dense"
+									id="name"
+									label="add comment..."
+									type="text"
+									fullWidth
+									variant="standard"
+									{...register("comment")}
+									InputLabelProps={{ style: { fontSize: "small", fontWeight: "bold", fontFamily: "Arial", color: "white", borderColor: "white" } }}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												
+												{props.uploadingComment ? (
+													<CircularProgress />
+												) : (
+													<Button
+														color="primary"
+														variant="text"
+														disabled={comment && validComment ? false : true}
+														type="submit">
+														<strong>Post</strong>
+													</Button>
+												)}
+											</InputAdornment>
+										),
+									}}
+								/>
+							</form>
+						</div>
 					)}
 				</Box>
 			</CardContent>
-			<hr />
 		</Card>
 	);
 };

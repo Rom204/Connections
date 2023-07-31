@@ -61,6 +61,11 @@ export default class PrismaPostServices {
                 throw error
             }
         }
+        return await this.prisma.like.findMany({
+            where : {
+                postId: postID,
+            }
+        })
     }
 
     public async createComment(postID: string, commentAuthor: string, comment: string) {
