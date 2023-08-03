@@ -32,7 +32,7 @@ export default function Footer(props: FooterProps) {
 	return (
 		<Box
 			component="footer"
-			sx={{ position: "fixed", backgroundColor: "#393646" }}>
+			sx={{ backgroundColor: "#393646" }}>
 			{props.user?.id?.length > 0 ? (
 				<Container maxWidth="lg">
 					<Typography

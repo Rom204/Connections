@@ -13,14 +13,21 @@
 @media (max-width: 450px) {
 	.myHeader {
 		position: fixed;
+        bottom:0;
+        left: 0;
+        right: 0;
 		width: 100%;
 	}
 	.myMain {
 		width: 100%;
-		padding-top: 100px;
+		padding-bottom: 120px;
 		flex-wrap: wrap;
 	}
 	.myFooter {
-		display: none;
+		position:fixed ;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
 	}
 }

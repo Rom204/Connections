@@ -29,29 +29,33 @@ const Explore = () => {
 		setAllUsers(data);
 	};
 	return (
-		<div>
-			<Box
-				sx={{
-					width: "100wv",
-					height: 500,
-				}}>
-				<h1>this is the Explore page</h1>
-				<div>
-					{allUsers.map((interactedUser) => {
-						return (
-							<User_interaction
-								key={interactedUser.id}
-								interactedUser={interactedUser}
-								user_id={user_state.id}
-								followStatus={function (): void {
-									throw new Error("Function not implemented.");
-								}}
-							/>
-						);
-					})}
-				</div>
-			</Box>
-		</div>
+		<Box
+			sx={{
+				height: "100%",
+				width: "100%",
+				position: "relative",
+				display: "flex",
+				flexWrap: "wrap",
+				overflowY: "scroll",
+				"&::-webkit-scrollbar": { display: "none" },
+				justifyContent: "center",
+				textAlign: "center",
+				alignItems: "center",
+			}}>
+			<h1>This is the Explore page, here you can follow people and see what they are up to !</h1>
+			{allUsers.map((interactedUser) => {
+				return (
+					<User_interaction
+						key={interactedUser.id}
+						interactedUser={interactedUser}
+						user_id={user_state.id}
+						followStatus={function (): void {
+							throw new Error("Function not implemented.");
+						}}
+					/>
+				);
+			})}
+		</Box>
 	);
 };
 
