@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { Backdrop, Box, Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, SpeedDial, SpeedDialAction, SpeedDialIcon, TextField, Typography } from "@mui/material";
+import { Backdrop, Box, Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Drawer, IconButton, List, ListItemButton, ListItemText, SpeedDial, SpeedDialAction, SpeedDialIcon, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -10,6 +10,7 @@ import { MuiFileInput } from "mui-file-input";
 import { ProgressBar } from "react-loader-spinner";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,43 @@ const Navbar = () => {
 	const [image, setImage] = useState<any>(null);
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
+	// ________________________________drawer_________________________________________
+	const [drawer, setDrawer] = useState(false);
+
+	const toggleDrawer = () => (event: React.KeyboardEvent | React.MouseEvent) => {
+		if (event.type === "keydown" && ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")) {
+			return;
+		}
+
+		setDrawer(!drawer);
+	};
+
+	const list = () => (
+		<Box
+			sx={{ width: 250 }}
+			role="presentation"
+			onClick={toggleDrawer()}
+			onKeyDown={toggleDrawer()}>
+			<List>
+				{navigation.map((item) => (
+					<NavLink
+						state={item.name === "profile" ? isAuth.id : ""}
+						key={item.name}
+						to={item.path}
+						style={{ textDecoration: "none", color: "black" }}>
+						<ListItemButton>
+							<ListItemText primary={item.name} />
+						</ListItemButton>
+					</NavLink>
+				))}
+			</List>
+			<IconButton onClick={() => logoutAction()}>
+				<LogoutIcon />
+			</IconButton>
+		</Box>
+	);
+
+	// ________________________________drawer_________________________________________
 
 	const { register, handleSubmit } = useForm({});
 
@@ -88,7 +126,7 @@ const Navbar = () => {
 
 	const actions = [{ icon: <LogoutIcon />, name: "Logout", action: logoutAction }];
 	return (
-		<Box sx={{ display: "flex", flexDirection: {xs: "row",sm: "column"}, height: "100%" }}>
+		<Box sx={{ display: "flex", flexDirection: { xs: "row", sm: "column" }, height: "100%" }}>
 			<Box sx={{ flexGrow: 1 }}>
 				<img
 					src={logo}
@@ -188,7 +226,7 @@ const Navbar = () => {
 				</Dialog>
 			</Box>
 
-			<Box sx={{ display: {xs:"none", sm:"block"},height: 320, transform: "translateZ(0px)", flexGrow: 1 }}>
+			<Box sx={{ display: { xs: "none", sm: "block" }, height: 320, transform: "translateZ(0px)", flexGrow: 1 }}>
 				<SpeedDial
 					ariaLabel="SpeedDial controlled open example"
 					sx={{ position: "absolute", bottom: "3rem", left: "1rem" }}
@@ -205,6 +243,17 @@ const Navbar = () => {
 						/>
 					))}
 				</SpeedDial>
+			</Box>
+			<Box>
+				<Button onClick={toggleDrawer()}>
+					<MenuIcon/>
+				</Button>
+				<Drawer
+					anchor="top"
+					open={drawer}
+					onClose={toggleDrawer()}>
+					{list()}
+				</Drawer>
 			</Box>
 		</Box>
 	);
