@@ -9,6 +9,6 @@ interface HeaderProps {
 }
 
 const Header = ({ user }: HeaderProps) => {
-	return <div style={{ height:"100%" }}>{user?.id?.length > 0 ? <Navbar /> : ""}</div>;
+	return <div style={{ height:"100%", width:"100%" }}>{user?.id?.length > 0 ? <Navbar /> : ""}</div>;
 };
 export default Header;

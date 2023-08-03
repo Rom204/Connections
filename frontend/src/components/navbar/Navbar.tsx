@@ -88,7 +88,7 @@ const Navbar = () => {
 
 	const actions = [{ icon: <LogoutIcon />, name: "Logout", action: logoutAction }];
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column", position: "fixed", height: "100%" }}>
+		<Box sx={{ display: "flex", flexDirection: {xs: "row",sm: "column"}, height: "100%" }}>
 			<Box sx={{ flexGrow: 1 }}>
 				<img
 					src={logo}
@@ -104,15 +104,14 @@ const Navbar = () => {
 							style={{ textDecoration: "none", color: "white" }}>
 							<Button
 								color="inherit"
-								sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
+								sx={{ display: { xs: "none", sm: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
 								{item.name}
 							</Button>
 						</NavLink>
 					);
 				})}
 				<Button
-					sx={{ display: { xs: "none", md: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}
-					// variant="outlined"
+					sx={{ display: { xs: "none", sm: "block" }, padding: "0.5rem 1.5rem 0.5rem 1.5rem", fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}
 					onClick={handleClickOpen}>
 					Create
 				</Button>
@@ -189,10 +188,10 @@ const Navbar = () => {
 				</Dialog>
 			</Box>
 
-			<Box sx={{ height: 320, transform: "translateZ(0px)", flexGrow: 1 }}>
+			<Box sx={{ display: {xs:"none", sm:"block"},height: 320, transform: "translateZ(0px)", flexGrow: 1 }}>
 				<SpeedDial
 					ariaLabel="SpeedDial controlled open example"
-					sx={{ position: "absolute", bottom: 16, right: 16 }}
+					sx={{ position: "absolute", bottom: "3rem", left: "1rem" }}
 					icon={<SettingsIcon />}
 					onClose={handleCloseMenu}
 					onOpen={handleOpenMenu}

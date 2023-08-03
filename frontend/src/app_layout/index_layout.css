@@ -1,0 +1,26 @@
+.myHeader {
+	width: 20%;
+	border: solid 1px red;
+	margin: 0.5rem;
+}
+.myMain {
+	width: 60%;
+}
+.myFooter {
+	width: 20%;
+}
+
+@media (max-width: 450px) {
+	.myHeader {
+		position: fixed;
+		width: 100%;
+	}
+	.myMain {
+		width: 100%;
+		padding-top: 100px;
+		flex-wrap: wrap;
+	}
+	.myFooter {
+		display: none;
+	}
+}
