@@ -66,7 +66,7 @@ const Login = () => {
 		<Box sx={{ height: "100%", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			<Card
 				elevation={24}
-				sx={{ backgroundColor: "whitesmoke", height: "50%", width: { xs: "100%", sm: "80%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
+				sx={{ backgroundColor: "whitesmoke", height: { xs: "100%", sm: "50%" }, width: { xs: "100%", sm: "80%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 				<h1>login</h1>
 				<form
 					style={{ width: "90%", height: "100%", display: "flex", flexDirection: "column", padding: "0", marginBottom: "3rem", position: "relative" }}

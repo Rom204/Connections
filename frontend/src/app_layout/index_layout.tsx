@@ -14,6 +14,14 @@ interface LayoutProps {
 const General_Layout = ({ user }: LayoutProps) => {
 	console.log("layout level 3");
 
+	if (user.id.length === 0) {
+		return (
+			<main style={{ height: "100%", width:"100%" }}>
+				<Main user={user} />
+			</main>
+		)
+	}
+
 	return (
 		<Box sx={{ display: "flex", height:'100%' }}>
 			<header style={{ width:"20%" }}>

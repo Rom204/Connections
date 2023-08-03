@@ -88,7 +88,7 @@ const Register = () => {
 		setLoading(true);
 	};
 	return (
-		<Box sx={{ height: "85%", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
+		<Box sx={{ height: "100%", display: "flex", justifyContent: "center", textAlign: "center", alignItems: "center", flexWrap: "wrap" }}>
 			{success ? (
 				<Card
 					elevation={24}
@@ -106,7 +106,7 @@ const Register = () => {
 			) : (
 				<Card
 					elevation={24}
-					sx={{ backgroundColor: "whitesmoke", height: "75%", width: { xs: "100%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
+					sx={{ backgroundColor: "whitesmoke", height: { xs: "100%", sm: "80%" }, width: { xs: "100%", md: "70%" }, display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<h1>Register</h1>
 					<form
 						style={{ width: "95%", display: "flex", flexDirection: "column" }}

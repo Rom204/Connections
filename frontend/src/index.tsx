@@ -1,10 +1,13 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import "./index.css";
+
+if (process.env.NODE_ENV === "production") disableReactDevTools();
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 console.log("render stage: index comp")

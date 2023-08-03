@@ -6,6 +6,7 @@ import Login from "../pages/login";
 import Private_router from "../services/Private_route";
 import Explore from "../pages/explore";
 import { Box } from "@mui/material";
+import RouteNotFound from "../pages/route_not_found";
 
 interface MainProps {
 	user: {
@@ -24,6 +25,10 @@ const Main = ({ user }: MainProps) => {
 				<Route
 					path="/"
 					element={<Private_router />}>
+					<Route
+						path="/"
+						element={<Feed />}
+					/>
 					<Route
 						path="feed"
 						element={<Feed />}
@@ -46,6 +51,7 @@ const Main = ({ user }: MainProps) => {
 				<Route
 					path="/login"
 					element={<Login />}></Route>
+					<Route path="*" element={<RouteNotFound/>}></Route>
 			</Routes>
 		</Box>
 	);
