@@ -42,7 +42,7 @@ const Profile = () => {
 	// 	color: theme.palette.text.secondary,
 	// }));
 	return (
-		<Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", height:"100%" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap",overflowY: "scroll", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", height:"100%" }}>
 			<User_interaction
 				key={userProfile?.id}
 				interactedUser={userProfile}
@@ -51,7 +51,7 @@ const Profile = () => {
 					throw new Error("Function not implemented.");
 				}}
 			/>
-			<Box sx={{  overflowY: "scroll", "&::-webkit-scrollbar": { display: "none" } , height:"100%", width:"100%"}}>
+			<Box sx={{ height:"100%", width:"100%"}}>
 				<Grid
 					container
 					rowSpacing={1}
