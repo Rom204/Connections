@@ -1,14 +1,16 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAppSelector } from "../redux/hooks";
 import Post from "../components/common/post/post";
 import PostModel from "../models/post_model";
+import { useNavigate } from "react-router-dom";
 
 const Feed = () => {
 	const user_state = useAppSelector((state) => state.user);
 	const [followedUsersPosts, setFollowedUsersPosts] = useState<PostModel[]>([]);
 	const [loading, setLoading] = useState(true);
+	const navigation = useNavigate();
 
 	console.log("this is the feed component");
 
@@ -36,7 +38,26 @@ const Feed = () => {
 			});
 	};
 	console.log(followedUsersPosts);
-	
+
+	if (followedUsersPosts.length === 0) {
+		return (
+			<Box>
+				<h1>No posts available</h1>
+				<h3>
+					try and follow someone :)
+					<br />
+					<span>
+						<Button
+							variant="contained"
+							onClick={() => navigation("/explore")}>
+							explore
+						</Button>
+					</span>
+				</h3>
+			</Box>
+		);
+	}
+
 	return (
 		<Box sx={{ display: "flex", flexWrap: "wrap", overflowY: "auto", "&::-webkit-scrollbar": { display: "none" }, justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", color: "white", height: "100%", width: "100%" }}>
 			{followedUsersPosts.map((post) => {

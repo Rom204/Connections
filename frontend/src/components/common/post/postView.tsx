@@ -203,21 +203,12 @@ const PostView = (props: PostViewProps) => {
 						</React.Fragment>
 					) : (
 						<div>
-							{/* <ul>
-								{props.comments.map((comment) => {
-									return (
-										<li
-											key={comment.id}
-											style={{ color: "white" }}>
-											{comment.user.username + "  " + comment.comment}
-										</li>
-									);
-								})}
-							</ul> */}
 							<Typography
 								variant="body2"
 								color="white"
-								component="p">
+								component="p"
+								onClick={props.openFullPostView}
+								sx={{ cursor: "pointer", ":hover": { color: "grey" } }}>
 								{props.comments.length > 0 ? props.comments.length + " comments" : "No comments yet"}
 							</Typography>
 							<form
