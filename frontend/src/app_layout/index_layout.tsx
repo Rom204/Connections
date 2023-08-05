@@ -16,6 +16,7 @@ const General_Layout = ({ user }: LayoutProps) => {
 	console.log("layout level 3");
 
 	if (user.id.length === 0) {
+		// returning the login/register pages without the header or the footer
 		return (
 			<main style={{ height: "100%", width: "100%" }}>
 				<Main user={user} />
@@ -26,19 +27,13 @@ const General_Layout = ({ user }: LayoutProps) => {
 	return (
 		<Box sx={{ display: "flex", height: "100%" }}>
 			<header className="myHeader">
-				<Header user={user} />
+				<Header />
 			</header>
-
 			<main className="myMain">
 				<Main user={user} />
 			</main>
-
 			<footer className="myFooter">
-				<Footer
-					description={"nothing at all"}
-					title={"extra"}
-					user={user}
-				/>
+				<Footer />
 			</footer>
 		</Box>
 	);

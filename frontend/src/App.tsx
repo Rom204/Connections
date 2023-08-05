@@ -8,19 +8,15 @@ import { InfinitySpin } from "react-loader-spinner";
 
 const App = () => {
 	console.log("render stage: app");
+
 	const apiService = new ApiService();
 	const dispatch = useAppDispatch();
+
 	const user = useAppSelector((state) => state.user);
 	const [loading, setLoading] = useState(true);
-
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalMessage, setModalMessage] = useState("");
 
-	const handleModalClose = () => {
-		dispatch(logout());
-		localStorage.removeItem("JWT");
-		setModalOpen(false);
-	};
 	useEffect(() => {
 		console.log(user);
 		if (user?.id?.length > 0) return; //checking if there is any user state initialized
@@ -46,10 +42,16 @@ const App = () => {
 					setModalOpen(true);
 				});
 		} else {
-			setLoading(false)
+			setLoading(false);
 		}
 	}, [user]);
 
+	const handleModalClose = () => {
+		dispatch(logout());
+		localStorage.removeItem("JWT");
+		setModalOpen(false);
+	};
+	// screen loader
 	if (loading) {
 		return (
 			<div style={{ display: "flex", flexDirection: "column", backgroundColor: "#393646", height: "100vh", justifyContent: "center", alignItems: "center" }}>
@@ -62,7 +64,7 @@ const App = () => {
 		);
 	}
 	return (
-		<div style={{ backgroundColor: "#393646", color: "white", height:"100%" }}>
+		<div style={{ backgroundColor: "#393646", color: "white", height: "100%" }}>
 			<General_Layout user={user} />
 			<Modal
 				open={modalOpen}
