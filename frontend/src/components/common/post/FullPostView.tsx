@@ -13,12 +13,11 @@ interface FullPostView extends PostModel {
 	uploadingComment?: boolean;
 	handleClose: () => void;
 	likeAction: () => void;
-	commentSection: () => void;
 	commentAction: (comment: string) => void;
 }
 
 const FullPostView = (props: FullPostView) => {
-	const { register, handleSubmit, watch } = useForm({});
+	const { register, handleSubmit, watch, reset } = useForm({});
 	const [comment] = watch(["comment"]);
 	const [validComment, setValidComment] = useState(false);
 
@@ -28,6 +27,7 @@ const FullPostView = (props: FullPostView) => {
 
 	const createNewComment = (comment: any) => {
 		props.commentAction(comment);
+        reset();
 	};
 	return (
 		<Box sx={{ height: "100%", width: "100%" }}>

@@ -8,7 +8,6 @@ import PostModel from "../../../models/post_model";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-
 const COMMENT_REGEX = /^[A-z][A-z0-9-_ ,.]{1,100}$/;
 
 interface PostViewProps extends PostModel {
@@ -16,14 +15,13 @@ interface PostViewProps extends PostModel {
 	loading?: boolean;
 	uploadingComment?: boolean;
 	likeAction: () => void;
-	commentSection: () => void;
 	commentAction: (comment: string) => void;
 	openFullPostView: () => void;
 }
 
 const PostView = (props: PostViewProps) => {
 	const { loading = false } = props;
-	const { register, handleSubmit, watch } = useForm({});
+	const { register, handleSubmit, watch, reset } = useForm({});
 	const [comment] = watch(["comment"]);
 	const [validComment, setValidComment] = useState(false);
 	const [like, setLike] = useState(false);
@@ -50,6 +48,7 @@ const PostView = (props: PostViewProps) => {
 	};
 	const createNewComment = (comment: any) => {
 		props.commentAction(comment);
+		reset();
 	};
 
 	return (
@@ -133,7 +132,8 @@ const PostView = (props: PostViewProps) => {
 						onClick={() => handleLikeButton()}>
 						{like ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteBorderOutlinedIcon sx={{ color: "white" }} />}
 					</IconButton>
-					<IconButton aria-label="settings"
+					<IconButton
+						aria-label="settings"
 						onClick={props.openFullPostView}>
 						<InsertCommentOutlinedIcon sx={{ color: "white" }} />
 					</IconButton>
@@ -203,7 +203,7 @@ const PostView = (props: PostViewProps) => {
 						</React.Fragment>
 					) : (
 						<div>
-							<ul>
+							{/* <ul>
 								{props.comments.map((comment) => {
 									return (
 										<li
@@ -213,7 +213,13 @@ const PostView = (props: PostViewProps) => {
 										</li>
 									);
 								})}
-							</ul>
+							</ul> */}
+							<Typography
+								variant="body2"
+								color="white"
+								component="p">
+								{props.comments.length > 0 ? props.comments.length + " comments" : "No comments yet"}
+							</Typography>
 							<form
 								onSubmit={handleSubmit((data) => {
 									console.log(data);
@@ -234,7 +240,6 @@ const PostView = (props: PostViewProps) => {
 									InputProps={{
 										endAdornment: (
 											<InputAdornment position="end">
-												
 												{props.uploadingComment ? (
 													<CircularProgress />
 												) : (
