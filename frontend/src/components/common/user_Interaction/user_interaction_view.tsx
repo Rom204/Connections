@@ -45,7 +45,7 @@ const User_interaction_view = (props: UserInteractionViewProps) => {
 
 	console.log(props.isFollowed);
 	return (
-		<Card sx={{ display: "flex", alignContent: "center", textAlign: "center", alignItems: "center", margin: "1rem" }}>
+		<Card elevation={0} sx={{ display: "flex", flexDirection: {xs: "column", sm: "row"}, alignContent: "center", textAlign: "center", alignItems: "center", margin: "1rem", backgroundColor: "transparent" }}>
 			<CardHeader
 				sx={{ display: "flex", flexDirection: "column", alignContent: "center", textAlign: "center" }}
 				avatar={
@@ -61,15 +61,15 @@ const User_interaction_view = (props: UserInteractionViewProps) => {
 				<ButtonGroup
 					variant="contained"
 					aria-label="outlined primary button group">
-					<Button disabled>{`Posts: ${props.interactedUser?.posts?.length}`}</Button>
+					<Button>{`${props.interactedUser?.posts?.length} Posts`}</Button>
 					<Button
 						onClick={() => {
 							handleClickOpenFollowers();
-						}}>{`Followers: ${props.interactedUser?.followedByIDs?.length}`}</Button>
+						}}>{`${props.interactedUser?.followedByIDs?.length} Followers`}</Button>
 					<Button
 						onClick={() => {
 							handleClickOpenFollowings();
-						}}>{`Following: ${props.interactedUser?.followingIDs?.length}`}</Button>
+						}}>{`${props.interactedUser?.followingIDs?.length} Following`}</Button>
 				</ButtonGroup>
 				{props.isMyProfile ? (
 					""

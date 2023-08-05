@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAppSelector } from "../redux/hooks";
 import Post from "../components/common/post/post";
@@ -32,13 +32,13 @@ const Feed = () => {
 			.then((response) => {
 				console.log(response.data);
 				setFollowedUsersPosts(response.data);
-				setTimeout(() => setLoading(false),1000)
+				setTimeout(() => setLoading(false), 1000);
 			});
 	};
 	console.log(followedUsersPosts);
-
+	
 	return (
-		<Box sx={{ display: "flex", flexWrap: "wrap",overflowY:"scroll", "&::-webkit-scrollbar": { display: "none"}, justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", color: "white", height:"100%",width:"100%" }}>
+		<Box sx={{ display: "flex", flexWrap: "wrap", overflowY: "auto", "&::-webkit-scrollbar": { display: "none" }, justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", color: "white", height: "100%", width: "100%" }}>
 			{followedUsersPosts.map((post) => {
 				return (
 					<Post

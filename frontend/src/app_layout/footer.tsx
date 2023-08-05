@@ -35,7 +35,7 @@ export default function Footer(props: FooterProps) {
 			sx={{ backgroundColor: "#393646" }}>
 			{props.user?.id?.length > 0 ? (
 				<Container maxWidth="lg">
-					<Typography
+					{/* <Typography
 						variant="h6"
 						align="center"
 						gutterBottom>
@@ -47,7 +47,7 @@ export default function Footer(props: FooterProps) {
 						color="text.secondary"
 						component="p">
 						{description}
-					</Typography>
+					</Typography> */}
 					<Copyright />
 					<Typography align="center">
 						<Link

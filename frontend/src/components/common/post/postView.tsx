@@ -7,10 +7,6 @@ import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined
 import PostModel from "../../../models/post_model";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { RotatingLines } from "react-loader-spinner";
-import LoopIcon from "@mui/icons-material/Loop";
-import SendIcon from "@mui/icons-material/Send";
-import LoadingButton from "@mui/lab/LoadingButton";
 
 
 const COMMENT_REGEX = /^[A-z][A-z0-9-_ ,.]{1,100}$/;
@@ -22,15 +18,16 @@ interface PostViewProps extends PostModel {
 	likeAction: () => void;
 	commentSection: () => void;
 	commentAction: (comment: string) => void;
+	openFullPostView: () => void;
 }
 
 const PostView = (props: PostViewProps) => {
 	const { loading = false } = props;
 	const { register, handleSubmit, watch } = useForm({});
 	const [comment] = watch(["comment"]);
+	const [validComment, setValidComment] = useState(false);
 	const [like, setLike] = useState(false);
 	// const [uploadingComment, setLoadingComment] = useState(false);
-	const [validComment, setValidComment] = useState(false);
 
 	useEffect(() => {
 		setValidComment(COMMENT_REGEX.test(comment));
@@ -56,7 +53,7 @@ const PostView = (props: PostViewProps) => {
 	};
 
 	return (
-		<Card sx={{ width: "100%", margin: "1rem", backgroundColor: "transparent", color: "white" }}>
+		<Card sx={{ width: "100%", marginTop: "1rem", backgroundColor: "transparent", color: "white" }}>
 			<CardHeader
 				sx={{ color: "white" }}
 				avatar={
@@ -136,7 +133,8 @@ const PostView = (props: PostViewProps) => {
 						onClick={() => handleLikeButton()}>
 						{like ? <FavoriteIcon sx={{ color: "red" }} /> : <FavoriteBorderOutlinedIcon sx={{ color: "white" }} />}
 					</IconButton>
-					<IconButton aria-label="settings">
+					<IconButton aria-label="settings"
+						onClick={props.openFullPostView}>
 						<InsertCommentOutlinedIcon sx={{ color: "white" }} />
 					</IconButton>
 				</Box>
