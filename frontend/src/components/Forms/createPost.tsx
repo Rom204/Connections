@@ -1,11 +1,11 @@
-import { Backdrop, Box, Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Box, Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import axios from "axios";
 import { MuiFileInput } from "mui-file-input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ProgressBar } from "react-loader-spinner";
 import { useAppSelector } from "../../redux/hooks";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import { CreatePostLoader } from "../common/loaders/loaders";
 
 const CreatePost = (): JSX.Element => {
 	const isAuth = useAppSelector((state) => state.user);
@@ -132,20 +132,7 @@ const CreatePost = (): JSX.Element => {
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
 				</DialogActions>
-				<Backdrop
-					sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-					open={loading}>
-					<ProgressBar
-						height="80"
-						width="80"
-						ariaLabel="progress-bar-loading"
-						wrapperStyle={{}}
-						wrapperClass="progress-bar-wrapper"
-						borderColor="#F4442E"
-						barColor="#51E5FF"
-					/>
-					<p>please do not exist while uploading the post</p>
-				</Backdrop>
+				<CreatePostLoader loading={loading}/>
 			</Dialog>
 		</Box>
 	);

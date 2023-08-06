@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Backdrop, Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { login } from "../redux/features/user/userSlice";
 import LoginIcon from "@mui/icons-material/Login";
 import KeyIcon from "@mui/icons-material/Key";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Dna } from "react-loader-spinner";
+import { LoginLoader } from "../components/common/loaders/loaders";
 
 const Login = () => {
 	const [loading, setLoading] = useState(false);
@@ -137,18 +137,7 @@ const Login = () => {
 					</Button>
 				</form>
 			</Card>
-			<Backdrop
-				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={loading}>
-				<Dna
-					visible={true}
-					height="80"
-					width="80"
-					ariaLabel="dna-loading"
-					wrapperStyle={{}}
-					wrapperClass="dna-wrapper"
-				/>
-			</Backdrop>
+			<LoginLoader loading={loading}/>
 		</Box>
 	);
 };

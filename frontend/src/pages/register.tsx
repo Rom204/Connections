@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Button, Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import AuthServices from "../services/auth_service";
 import MailIcon from "@mui/icons-material/Mail";
 import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
 import KeyIcon from "@mui/icons-material/Key";
-import { Dna } from "react-loader-spinner";
+import { RegisterLoader } from "../components/common/loaders/loaders";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -233,18 +233,7 @@ const Register = () => {
 					</p>
 				</Card>
 			)}
-			<Backdrop
-				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={loading}>
-				<Dna
-					visible={true}
-					height="80"
-					width="80"
-					ariaLabel="dna-loading"
-					wrapperStyle={{}}
-					wrapperClass="dna-wrapper"
-				/>
-			</Backdrop>
+			<RegisterLoader loading={loading}/>
 		</Box>
 	);
 };

@@ -36,12 +36,7 @@ const User_interaction_view = (props: UserInteractionViewProps) => {
 		setOpen(false);
 		setUsersType("");
 	};
-	// const handleCloseAndNav = () => {
-	// 	handleClose();
-	// 	window.setTimeout(() => {
 
-	// 	}, 1000)
-	// }
 
 	console.log(props.isFollowed);
 	return (

@@ -3,7 +3,6 @@ import PostModel from "../../../models/post_model";
 import axios from "axios";
 import { useAppSelector } from "../../../redux/hooks";
 import { useState } from "react";
-import { Box, Dialog } from "@mui/material";
 import FullPostView from "./FullPostView";
 
 interface PostProps extends PostModel {

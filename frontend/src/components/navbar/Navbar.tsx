@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -8,6 +8,7 @@ import Settings from "./Settings";
 import CreatePost from "../Forms/createPost";
 import logo from "../../c637fc51e3174133b678daa8979e1bee.png";
 import "./navbar.css";
+import { BigNavButton, SmallNavButton } from "../common/button/NavbarButtons";
 
 const Navbar = () => {
 	const isAuth = useAppSelector((state) => state.user);
@@ -34,18 +35,12 @@ const Navbar = () => {
 							to={item.path}
 							style={{ textDecoration: "none", color: "white" }}>
 							{/* (medium+) screen size button */}
-							<Button
-								color="inherit"
-								sx={{ display: { xs: "none", sm: "block" }, fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
-								{item.symbol}
-								{item.name}
-							</Button>
+							<BigNavButton
+								name={item.name}
+								symbol={item.symbol}
+							/>
 							{/* (medium-) screen size button */}
-							<Button
-								color="inherit"
-								sx={{ display: { xs: "block", sm: "none" }, fontWeight: "600", ":hover": { backgroundColor: "#5e5959" }, transition: "color 1s cubic-bezier(0.06, 0.81, 0, 0.98),border-color .5s cubic-bezier(0.06, 0.81, 0, 0.98)" }}>
-								{item.symbol}
-							</Button>
+							<SmallNavButton symbol={item.symbol} />
 						</NavLink>
 					);
 				})}
