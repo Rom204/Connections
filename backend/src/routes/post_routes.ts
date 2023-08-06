@@ -15,7 +15,7 @@ router.post(PostURLS.createPostApi, async (request: Request, response: Response,
         const image = request.body.image;
 
         const uploadImage = await post_controller.cloudImageUpload(image);
-        // console.log("final stage:", uploadImage)
+        console.log("final stage:", uploadImage)
         const cloudImageURL = uploadImage.secure_url;
         response.status(200).json(await post_controller.createPost(cloudImageURL, post_data, author_id))
     } catch (error) {

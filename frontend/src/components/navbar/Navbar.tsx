@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
 import { Box, Button } from "@mui/material";
-import logo from "../../c637fc51e3174133b678daa8979e1bee.png";
+import { useAppSelector } from "../../redux/hooks";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import Settings from "./Settings";
-import CreatePost from "../CreatePost/createPost";
+import CreatePost from "../Forms/createPost";
+import logo from "../../c637fc51e3174133b678daa8979e1bee.png";
 import "./navbar.css";
 
 const Navbar = () => {

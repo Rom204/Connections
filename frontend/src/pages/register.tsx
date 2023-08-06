@@ -13,6 +13,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const authService = new AuthServices();
+
 const Register = () => {
 	const [loading, setLoading] = useState(false);
 	const navigation = useNavigate();
@@ -22,21 +23,13 @@ const Register = () => {
 	const [email, username, password, matchingPassword] = watch(["email", "username", "password", "matchingPassword"]);
 
 	const [validEmail, setValidEmail] = useState(false);
-	// const [emailFocus, setEmailFocus] = useState(false);
-
 	const [validUsername, setValidUsername] = useState(false);
-	// const [usernameFocus, setUsernameFocus] = useState(false);
-
 	const [validPassword, setValidPassword] = useState(false);
-	// const [passwordFocus, setPasswordFocus] = useState(false);
-
 	const [validMatchingPassword, setValidMatchingPassword] = useState(false);
-	const [matchingPasswordFocus, setMatchingPasswordFocus] = useState(false);
-
 	const [errorMessage, setErrorMessage] = useState("");
 	const [success, setSuccess] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
-	// const [visibility, setVisibility] = useState("");
 
 	useEffect(() => {
 		setValidUsername(USER_REGEX.test(username));
@@ -67,7 +60,7 @@ const Register = () => {
 			} catch (error: any) {
 				// TODO : create an error handler for login and register
 				console.log(error);
-				setTimeout(() => setLoading(false),3000);
+				setTimeout(() => setLoading(false), 3000);
 				if (error.response?.status === 404) {
 					setErrorMessage("username or email already taken");
 				} else {
@@ -76,7 +69,6 @@ const Register = () => {
 			}
 		}
 	};
-	const [showPassword, setShowPassword] = useState(false);
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -200,14 +192,7 @@ const Register = () => {
 							// TODO: consider change that function because of exposure of the regular password
 							error={!validMatchingPassword && matchingPassword?.length > 0}
 							helperText={!validMatchingPassword && matchingPassword?.length > 0 ? "both password must be the same" : ""}
-							onFocus={() => {
-								setMatchingPasswordFocus(true);
-							}}
-							{...register("matchingPassword", {
-								onBlur: () => {
-									setMatchingPasswordFocus(false);
-								},
-							})}
+							{...register("matchingPassword")}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">

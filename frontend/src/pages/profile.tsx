@@ -35,21 +35,13 @@ const Profile = () => {
 			console.log(error);
 		}
 	};
-	// const Item = styled(Paper)(({ theme }) => ({
-		
-	// 	padding: theme.spacing(1),
-	// 	textAlign: "center",
-	// 	color: theme.palette.text.secondary,
-	// }));
+
 	return (
 		<Box sx={{ display: "flex", flexWrap: "wrap",overflowY: "scroll", justifyContent: "center", textAlign: "center", alignItems: "center", position: "relative", height:"100%" }}>
 			<User_interaction
 				key={userProfile?.id}
 				interactedUser={userProfile}
 				user_id={user_state.id}
-				followStatus={function (): void {
-					throw new Error("Function not implemented.");
-				}}
 			/>
 			<Box sx={{ height:"100%", width:"100%"}}>
 				<Grid

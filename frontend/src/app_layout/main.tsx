@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
+import { Box } from "@mui/material";
+import Explore from "../pages/explore";
 import Feed from "../pages/feed";
 import Profile from "../pages/profile";
 import Register from "../pages/register";
 import Login from "../pages/login";
 import Private_router from "../services/Private_route";
-import Explore from "../pages/explore";
-import { Box } from "@mui/material";
 import RouteNotFound from "../pages/route_not_found";
 
 interface MainProps {
@@ -19,7 +19,7 @@ const Main = ({ user }: MainProps) => {
 	console.log(user);
 	console.log("main level 4");
 	return (
-		<Box sx={{ height:"100%" }}>
+		<Box sx={{ height: "100%" }}>
 			{/* PROTECTED ROUTES */}
 			<Routes>
 				<Route
@@ -51,7 +51,9 @@ const Main = ({ user }: MainProps) => {
 				<Route
 					path="/login"
 					element={<Login />}></Route>
-					<Route path="*" element={<RouteNotFound/>}></Route>
+				<Route
+					path="*"
+					element={<RouteNotFound />}></Route>
 			</Routes>
 		</Box>
 	);
